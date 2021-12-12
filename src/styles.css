@@ -1,0 +1,59 @@
+* {
+    box-sizing: inherit;
+}
+
+body,
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    box-sizing: border-box;
+    background-color: #eeeeee;
+    color: #333333;
+}
+
+header {
+    background-color: #333333;
+    padding: 30px;
+    color: #eeeeee;
+}
+
+main {
+    display: flex;
+    flex-flow: nowrap row;
+    min-height: calc(100vh - 100px);
+}
+
+main>div {
+    flex: 1;
+}
+
+main div#menu {
+    max-width: 300px;
+    min-width: 200px;
+    background-color: #dddddd;
+    display: flex;
+    flex-direction: column;
+    padding: 20px
+}
+
+main div#main-content {
+    flex: 2.5;
+    padding: 20px
+}
+
+main div#main-content>* {
+    margin: 0 auto;
+}
+
+
+/* Inbox */
+
+#inbox-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#inbox-container button {}
