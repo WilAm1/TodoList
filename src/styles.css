@@ -59,3 +59,11 @@ main div#main-content>* {
 #inbox-container button {
     background-color: #f1ebeb80;
 }
+
+.project-exit-btn {
+    display: none;
+}
+
+.project-exit-btn.active {
+    display: block;
+}

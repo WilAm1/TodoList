@@ -1,16 +1,22 @@
 import pubsub from './pubsub';
 
 const ProjectUI = ({ root }) => {
-    const addNewProject = ({ name }) => {
+    const renderProjectDiv = ({ name }) => {
         const newProject = document.createElement('div');
         newProject.classList.add('project');
         newProject.innerHTML = `
             <p class="project-name" id="${name}">${name}</p>
             <button class="project-exit-btn">X</button>
             `;
+        newProject.addEventListener('mouseover', () => {
+            exitBtn.style.display = 'block';
+            exitBtn.classList.add('active');
+        });
+        newProject.addEventListener('mouseout', () => {
+            exitBtn.style.display = 'none';
+            exitBtn.classList.remove('active');
+        });
         const exitBtn = newProject.querySelector('.project-exit-btn');
-        const nameBtn = newProject.querySelector('.project-btn');
-
         exitBtn.addEventListener('click', () => {
             newProject.remove();
             pubsub.publish('remove-project', { name });
@@ -18,7 +24,7 @@ const ProjectUI = ({ root }) => {
 
         root.appendChild(newProject);
     };
-    pubsub.subscribe('add-new-project', addNewProject);
+    pubsub.subscribe('add-new-project', renderProjectDiv);
 };
 
 const projectInputUI = function({ root }) {
@@ -26,6 +32,7 @@ const projectInputUI = function({ root }) {
     const removeBtn = (btn) => { btn.style.display = 'none'; };
     const showBtn = (btn) => { btn.style.display = "block"; };
     const checkStrValidity = (str) => {
+        // Add pubsub to check if there is a same project name
         if (!str) {
             console.log('invalid');
             alert('Please input a valid project name.');
