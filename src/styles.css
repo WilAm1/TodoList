@@ -56,4 +56,6 @@ main div#main-content>* {
     flex-direction: column;
 }
 
-#inbox-container button {}
+#inbox-container button {
+    background-color: #f1ebeb80;
+}
