@@ -1,8 +1,26 @@
 import pubsub from './pubsub';
 
 const ProjectUI = ({ root }) => {
+    const addNewProject = ({ name }) => {
+        const newProject = document.createElement('div');
+        newProject.classList.add('project');
+        newProject.innerHTML = `
+            <p class="project-name" id="${name}">${name}</p>
+            <button class="project-exit-btn">X</button>
+            `;
+        const exitBtn = newProject.querySelector('.project-exit-btn');
+        const nameBtn = newProject.querySelector('.project-btn');
 
-}
+        exitBtn.addEventListener('click', () => {
+            newProject.remove();
+            pubsub.publish('remove-project', { name });
+        });
+
+        root.appendChild(newProject);
+    };
+    pubsub.subscribe('add-new-project', addNewProject);
+};
+
 const projectInputUI = function({ root }) {
     const mainBtn = root.querySelector('button');
     const removeBtn = (btn) => { btn.style.display = 'none'; };
