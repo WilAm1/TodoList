@@ -2,11 +2,9 @@ import pubsub from './pubsub';
 
 
 const addProject = function({ root }) {
-    const btn = root.querySelector('button')
-    const removeBtn = () => {
-        btn.style.display = 'none';
-    };
-    const showBtn = () => { btn.style.display = "block"; };
+    const mainBtn = root.querySelector('button');
+    const removeBtn = (btn) => { btn.style.display = 'none'; };
+    const showBtn = (btn) => { btn.style.display = "block"; };
     const checkStrValidity = (str) => {
         if (!str) {
             console.log('invalid');
@@ -34,7 +32,7 @@ const addProject = function({ root }) {
                 pubsub.publish('add-new-project', { name: inputText });
                 console.log(inputText);
                 div.remove();
-                showBtn();
+                showBtn(mainBtn);
             } else {
 
             }
@@ -43,17 +41,18 @@ const addProject = function({ root }) {
         const cancelBtn = div.querySelector('#cancel-new-project');
         cancelBtn.addEventListener('click', () => {
             div.remove();
-            showBtn();
+            showBtn(mainBtn);
         });
     }
 
 
     const onAddProject = ({ target }) => {
         removeBtn(target);
+        console.log(target)
         renderInputProject();
     }
 
-    btn.addEventListener('click', onAddProject);
+    mainBtn.addEventListener('click', onAddProject);
 
 
 
