@@ -1,7 +1,9 @@
 import pubsub from './pubsub';
 
+const ProjectUI = ({ root }) => {
 
-const addProject = function({ root }) {
+}
+const projectInputUI = function({ root }) {
     const mainBtn = root.querySelector('button');
     const removeBtn = (btn) => { btn.style.display = 'none'; };
     const showBtn = (btn) => { btn.style.display = "block"; };
@@ -20,19 +22,18 @@ const addProject = function({ root }) {
         <input type="text" required >
         <button id="add-new-project" type="submit">Add</button>
         <button id="cancel-new-project">Cancel</button>
-    `;
-        root.appendChild(div);
+        `;
+
 
         const addBtn = div.querySelector('#add-new-project');
         addBtn.addEventListener('click', () => {
-            //Place a required
             const inputText = div.querySelector('input').value;
             const isValid = checkStrValidity(inputText);
             if (isValid) {
-                pubsub.publish('add-new-project', { name: inputText });
                 console.log(inputText);
                 div.remove();
                 showBtn(mainBtn);
+                pubsub.publish('add-new-project', { name: inputText });
             } else {
 
             }
@@ -43,12 +44,10 @@ const addProject = function({ root }) {
             div.remove();
             showBtn(mainBtn);
         });
+        root.appendChild(div);
     }
-
-
     const onAddProject = ({ target }) => {
         removeBtn(target);
-        console.log(target)
         renderInputProject();
     }
 
@@ -59,4 +58,4 @@ const addProject = function({ root }) {
 }
 
 
-export { addProject }
+export { projectInputUI, ProjectUI }

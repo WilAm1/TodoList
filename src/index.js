@@ -1,8 +1,8 @@
 import css from './styles.css';
-import { addProject } from './UI.js';
+import { projectInputUI, ProjectUI } from './UI.js';
 
 
 console.log("hello world")
 
-
-addProject({ root: document.querySelector('#project-btn-container') })
+ProjectUI({ root: document.querySelector('#project-list') })
+projectInputUI({ root: document.querySelector('#project-btn-container') })
