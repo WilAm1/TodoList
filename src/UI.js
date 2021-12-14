@@ -4,7 +4,8 @@ const ProjectUI = ({ root }) => {
     const onProjectClick = ({ target }) => {
         console.log('I was clicked!', target.id);
         pubsub.publish('project-click', { name: target.id });
-    }
+    };
+
     const renderProjectDiv = ({ name }) => {
         const newProject = document.createElement('div');
         newProject.classList.add('project');
@@ -33,9 +34,10 @@ const ProjectUI = ({ root }) => {
     pubsub.subscribe('add-new-project', renderProjectDiv);
 };
 
+//Handles the Popup 
 const projectInputUI = function({ root }) {
     const mainBtn = root.querySelector('button');
-    const removeBtn = (btn) => { btn.style.display = 'none'; };
+    const hideBtn = (btn) => { btn.style.display = 'none'; };
     const showBtn = (btn) => { btn.style.display = "block"; };
     const checkStrValidity = (str) => {
         // Add pubsub to check if there is a same project name
@@ -43,10 +45,9 @@ const projectInputUI = function({ root }) {
             console.log('invalid');
             alert('Please input a valid project name.');
             return false;
-        } else {
-            return true
         }
-    }
+        return true;
+    };
     const renderInputProject = function() {
         const div = document.createElement('div');
         div.innerHTML = `
@@ -57,6 +58,8 @@ const projectInputUI = function({ root }) {
 
 
         const addBtn = div.querySelector('#add-new-project');
+        const cancelBtn = div.querySelector('#cancel-new-project');
+
         addBtn.addEventListener('click', () => {
             const inputText = div.querySelector('input').value;
             const isValid = checkStrValidity(inputText);
@@ -67,7 +70,6 @@ const projectInputUI = function({ root }) {
                 pubsub.publish('add-new-project', { name: inputText });
             }
         });
-        const cancelBtn = div.querySelector('#cancel-new-project');
         cancelBtn.addEventListener('click', () => {
             div.remove();
             showBtn(mainBtn);
@@ -77,7 +79,7 @@ const projectInputUI = function({ root }) {
 
     }
     const onAddProject = ({ target }) => {
-        removeBtn(target);
+        hideBtn(target);
         renderInputProject();
     }
 
