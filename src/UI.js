@@ -1,13 +1,19 @@
 import pubsub from './pubsub';
 
 const ProjectUI = ({ root }) => {
+    const onProjectClick = ({ target }) => {
+        console.log('I was clicked!', target.id);
+        pubsub.publish('project-click', { name: target.id });
+    }
     const renderProjectDiv = ({ name }) => {
         const newProject = document.createElement('div');
         newProject.classList.add('project');
         newProject.innerHTML = `
-            <p class="project-name" id="${name}">${name}</p>
-            <button class="project-exit-btn">X</button>
-            `;
+        <p class="project-name" id="${name}">${name}</p>
+        <button class="project-exit-btn">X</button>
+        `;
+        const exitBtn = newProject.querySelector('.project-exit-btn');
+
         newProject.addEventListener('mouseover', () => {
             exitBtn.style.display = 'block';
             exitBtn.classList.add('active');
@@ -16,7 +22,7 @@ const ProjectUI = ({ root }) => {
             exitBtn.style.display = 'none';
             exitBtn.classList.remove('active');
         });
-        const exitBtn = newProject.querySelector('.project-exit-btn');
+        newProject.addEventListener('click', onProjectClick);
         exitBtn.addEventListener('click', () => {
             newProject.remove();
             pubsub.publish('remove-project', { name });
@@ -59,10 +65,7 @@ const projectInputUI = function({ root }) {
                 div.remove();
                 showBtn(mainBtn);
                 pubsub.publish('add-new-project', { name: inputText });
-            } else {
-
             }
-
         });
         const cancelBtn = div.querySelector('#cancel-new-project');
         cancelBtn.addEventListener('click', () => {
