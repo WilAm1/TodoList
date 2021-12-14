@@ -4,5 +4,8 @@ import { projectInputUI, ProjectUI } from './UI.js';
 
 console.log("hello world")
 
-ProjectUI({ root: document.querySelector('#project-list') })
+ProjectUI({
+    root: document.querySelector('#project-list'),
+    todoContainer: document.querySelector('#main-content')
+})
 projectInputUI({ root: document.querySelector('#project-btn-container') })

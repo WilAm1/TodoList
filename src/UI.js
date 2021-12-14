@@ -1,10 +1,24 @@
 import pubsub from './pubsub';
 
-const ProjectUI = ({ root }) => {
+const renderTodo = () => {
+
+}
+
+const renderAllTodos = () => {
+    //Will render all todos
+    //fetchs the data from ProjectUI
+    console.log('I rendered the todos!')
+};
+const ProjectUI = ({ root, todoContainer }) => {
+
     const onProjectClick = ({ target }) => {
-        console.log('I was clicked!', target.id);
+        console.log('I was clicked! I will now fetch local todos!', target.id);
+        addToDoBtn();
         pubsub.publish('project-click', { name: target.id });
     };
+    const addToDoBtn = () => {
+        console.log("I added an Add todo Btn!")
+    }
 
     const renderProjectDiv = ({ name }) => {
         const newProject = document.createElement('div');
@@ -64,7 +78,7 @@ const projectInputUI = function({ root }) {
             const inputText = div.querySelector('input').value;
             const isValid = checkStrValidity(inputText);
             if (isValid) {
-                console.log(inputText);
+                console.log("The new project is Valid!", inputText);
                 div.remove();
                 showBtn(mainBtn);
                 pubsub.publish('add-new-project', { name: inputText });
