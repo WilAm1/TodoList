@@ -71,16 +71,6 @@ const projectInputUI = function({ root }) {
         });
         root.appendChild(div);
         // Add event listener to close input div if user clicked outside the div
-        const inputRemove = ({ target }) => {
-            console.log(target)
-                // console.log(target.parentElement)
-            if ((target.parentElement === div)) {
-                console.log('he')
-                div.remove();
-                document.removeEventListener('click', inputRemove);
-            }
-        };
-        document.addEventListener('click', inputRemove);
 
     }
     const onAddProject = ({ target }) => {
