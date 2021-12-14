@@ -5,8 +5,16 @@ export default class {
         this.length = 0;
         //pubsub
     }
+
     get(key) {
         return this.container[key];
+    }
+    replace(obj) {
+        if (!!this.container[obj.name]) {
+            return false;
+        }
+        this.container[obj.name] = obj;
+        return true;
     }
     add(obj) {
         if (!!this.container[obj.name]) {
@@ -16,11 +24,11 @@ export default class {
         this.length++;
         return true;
     }
-    remove(obj) {
-        if (!this.container[obj.name]) {
+    remove(key) {
+        if (!this.container[key]) {
             return null;
         }
-        delete this.container[obj.name];
+        delete this.container[key];
         return --this.length;
     }
     getAll() {
