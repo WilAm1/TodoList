@@ -17,17 +17,22 @@ const ProjectUI = ({ root, todoContainer }) => {
 
     const onProjectClick = ({ target }) => {
         console.log('I was clicked! I will now fetch local todos!', target.id);
-
         pubsub.publish('project-click', { name: target.id });
     };
+
     const makeToDoBtn = (name) => {
         const addBtn = document.createElement('button');
         addBtn.textContent = "+";
         addBtn.id = `add-todo-${name}-project`;
         addBtn.classList.add('add-todo-btn');
-        return addBtn
+        return addBtn;
+    };
+    const removeToDoBtn = () => {
+        const btn = todoContainer.querySelector('button');
+        if (btn) btn.remove();
     }
     const renderBtn = ({ name }) => {
+        if (todoContainer.querySelector('button')) return;
         const btn = makeToDoBtn(name);
         todoContainer.appendChild(btn);
         console.log("I added an Add todo Btn!");
@@ -64,6 +69,7 @@ const ProjectUI = ({ root, todoContainer }) => {
     };
     pubsub.subscribe('add-new-project', renderProjectDiv);
     pubsub.subscribe('add-new-project', renderBtn);
+    pubsub.subscribe('remove-project', removeToDoBtn);
 };
 
 //Handles the Popup 
