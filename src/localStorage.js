@@ -11,6 +11,7 @@ const initializeStorage = function() {
     const addProject = (obj) => {
         container[obj.name] = obj;
         console.log('I was added to project container!');
+        console.log(container)
     }
     pubsub.subscribe('add-project-to-library', addProject);
 };
