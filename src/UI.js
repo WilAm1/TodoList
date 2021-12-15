@@ -1,5 +1,9 @@
 import pubsub from './pubsub';
 
+
+const ToDoUI = () => {
+
+};
 const renderTodo = () => {
 
 }
@@ -17,7 +21,6 @@ const ProjectUI = ({ root, todoContainer }) => {
         pubsub.publish('project-click', { name: target.id });
     };
     const makeToDoBtn = (name) => {
-        console.log("I added an Add todo Btn!");
         const addBtn = document.createElement('button');
         addBtn.textContent = "+";
         addBtn.id = `add-todo-${name}-project`;
@@ -27,14 +30,19 @@ const ProjectUI = ({ root, todoContainer }) => {
     const renderBtn = ({ name }) => {
         const btn = makeToDoBtn(name);
         todoContainer.appendChild(btn);
+        console.log("I added an Add todo Btn!");
     }
-    const renderProjectDiv = ({ name }) => {
-        const newProject = document.createElement('div');
-        newProject.classList.add('project');
-        newProject.innerHTML = `
+    const makeProjectElement = (name) => {
+        const element = document.createElement('div');
+        element.classList.add('project');
+        element.innerHTML = `
         <p class="project-name" id="${name}">${name}</p>
         <button class="project-exit-btn">X</button>
         `;
+        return element
+    }
+    const renderProjectDiv = ({ name }) => {
+        const newProject = makeProjectElement(name)
         const exitBtn = newProject.querySelector('.project-exit-btn');
 
         newProject.addEventListener('mouseover', () => {
