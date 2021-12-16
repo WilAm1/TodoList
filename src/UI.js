@@ -14,29 +14,36 @@ const renderAllTodos = () => {
     console.log('I rendered the todos!')
 };
 const ProjectUI = ({ root, todoContainer }) => {
-
-    const onProjectClick = ({ target }) => {
-        console.log('I was clicked! I will now fetch local todos!', target.id);
-        pubsub.publish('project-click', { name: target.id });
-    };
-
-    const makeToDoBtn = (name) => {
+    const makeToDoBtn = () => {
         const addBtn = document.createElement('button');
         addBtn.textContent = "+";
-        addBtn.id = `add-todo-${name}-project`;
         addBtn.classList.add('add-todo-btn');
         return addBtn;
     };
+
     const removeToDoBtn = () => {
         const btn = todoContainer.querySelector('button');
         if (btn) btn.remove();
-    }
+    };
+
+    const removeContents = () => {
+        todoContainer.innerHTML = ``;
+    };
+
+    const onProjectClick = ({ target }) => {
+        console.log('I was clicked! I will now fetch local todos!', target);
+        removeContents();
+        pubsub.publish('project-click', { name: target.id });
+    };
+
     const renderBtn = ({ name }) => {
         if (todoContainer.querySelector('button')) return;
         const btn = makeToDoBtn(name);
         todoContainer.appendChild(btn);
         console.log("I added an Add todo Btn!");
-    }
+        //pubsub to remove project on the project list
+    };
+
     const makeProjectElement = (name) => {
         const element = document.createElement('div');
         element.classList.add('project');
@@ -46,9 +53,11 @@ const ProjectUI = ({ root, todoContainer }) => {
         `;
         return element
     }
+
     const renderProjectDiv = ({ name }) => {
         const newProject = makeProjectElement(name)
         const exitBtn = newProject.querySelector('.project-exit-btn');
+        const paragraphElement = newProject.querySelector('p');
 
         newProject.addEventListener('mouseover', () => {
             exitBtn.style.display = 'block';
@@ -58,19 +67,21 @@ const ProjectUI = ({ root, todoContainer }) => {
             exitBtn.style.display = 'none';
             exitBtn.classList.remove('active');
         });
-        newProject.addEventListener('click', onProjectClick);
+        paragraphElement.addEventListener('click', onProjectClick);
         exitBtn.addEventListener('click', () => {
             newProject.remove();
             pubsub.publish('remove-project', { name });
         });
 
         root.appendChild(newProject);
-
     };
     pubsub.subscribe('add-new-project', renderProjectDiv);
     pubsub.subscribe('add-new-project', renderBtn);
-    pubsub.subscribe('remove-project', removeToDoBtn);
+    pubsub.subscribe('remove-project', removeContents);
 };
+
+
+
 
 //Handles the Popup 
 const projectInputUI = function({ root }) {
