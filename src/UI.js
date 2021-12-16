@@ -7,7 +7,13 @@ const ToDoUI = () => {
 const renderTodo = () => {
 
 }
+const renderToDoModal = (() => {
 
+
+    pubsub.subscribe('add')
+
+
+})();
 const renderAllTodos = () => {
     //Will render all todos
     //fetchs the data from ProjectUI
@@ -31,18 +37,25 @@ const ProjectUI = ({ root, todoContainer }) => {
     };
 
     const onProjectClick = ({ target }) => {
-        console.log('I was clicked! I will now fetch local todos!', target);
         removeContents();
+        renderBtn({ name: target.name });
         pubsub.publish('project-click', { name: target.id });
+        console.log('I will now fetch local todos!', target);
     };
 
-    const renderBtn = ({ name }) => {
+    const renderBtn = ({ name, container = todoContainer }) => {
         // Will always run since will wipe main content for every click
-        if (todoContainer.querySelector('button')) return;
+        if (container.querySelector('button')) return;
         console.log("I added an Add todo Btn!");
         const btn = makeToDoBtn(name);
-        console.log(btn)
-        todoContainer.appendChild(btn);
+        btn.addEventListener('click', () => {
+            pubsub.publish('make-modal', {
+                name,
+                container
+            });
+            console.log('I will now show the modal!');
+        });
+        container.appendChild(btn);
         //pubsub to remove project on the project list
     };
 
@@ -79,7 +92,7 @@ const ProjectUI = ({ root, todoContainer }) => {
     };
     pubsub.subscribe('add-new-project', renderProjectDiv);
     pubsub.subscribe('add-new-project', renderBtn);
-    pubsub.subscribe('project-click', renderBtn);
+    // pubsub.subscribe('project-click', renderBtn);
     pubsub.subscribe('remove-project', removeContents);
 };
 
