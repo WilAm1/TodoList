@@ -37,10 +37,12 @@ const ProjectUI = ({ root, todoContainer }) => {
     };
 
     const renderBtn = ({ name }) => {
+        // Will always run since will wipe main content for every click
         if (todoContainer.querySelector('button')) return;
-        const btn = makeToDoBtn(name);
-        todoContainer.appendChild(btn);
         console.log("I added an Add todo Btn!");
+        const btn = makeToDoBtn(name);
+        console.log(btn)
+        todoContainer.appendChild(btn);
         //pubsub to remove project on the project list
     };
 
@@ -77,6 +79,7 @@ const ProjectUI = ({ root, todoContainer }) => {
     };
     pubsub.subscribe('add-new-project', renderProjectDiv);
     pubsub.subscribe('add-new-project', renderBtn);
+    pubsub.subscribe('project-click', renderBtn);
     pubsub.subscribe('remove-project', removeContents);
 };
 
