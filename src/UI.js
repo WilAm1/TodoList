@@ -1,4 +1,6 @@
 import pubsub from './pubsub';
+//Will be using localStorage to check if projectname is avaible.
+
 
 const ToDoUI = () => {
 
@@ -71,9 +73,6 @@ const ProjectUI = ({ root, todoContainer }) => {
 
 
     const renderProjectDiv = ({ name }) => {
-        // if (checkProjectValidity(name)) {
-        //     return;
-        // };
         const newProject = makeProjectElement(name)
         const exitBtn = newProject.querySelector('.project-exit-btn');
         const paragraphElement = newProject.querySelector('p');
@@ -111,17 +110,15 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
     const hideBtn = (btn) => { btn.style.display = 'none'; };
     const showBtn = (btn) => { btn.style.display = "block"; };
 
-
+    // Checks the data attribute of all elems of  project list 
     const isProjectNameValid = (name) => {
-        const isAvailable = DOMlist.querySelector(`#${name}`);
-
-        //#Will Add later: use API to check localStorage if property is already used.
+        const isAvailable = DOMlist.querySelector(`[data-name="${name}"]`);
+        //#Will Add later: use API to check 
+        //localStorage if property is already used.
         return !!isAvailable;
     };
 
     const checkStrValidity = (str) => {
-        // Add pubsub to check if there is a same project name
-
         if (!str) {
             console.log('invalid');
             alert('Please input a valid project name.');
