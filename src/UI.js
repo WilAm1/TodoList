@@ -110,12 +110,11 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
     const mainBtn = DOMbtn.querySelector('button');
     const hideBtn = (btn) => { btn.style.display = 'none'; };
     const showBtn = (btn) => { btn.style.display = "block"; };
-    const checkProjectValidity = (name) => {
+    const isProjectNameValid = (name) => {
         const isAvailable = DOMlist.querySelector(`#${name}`);
-        console.log(isAvailable);
         return !!isAvailable;
-
     };
+
     const checkStrValidity = (str) => {
         // Add pubsub to check if there is a same project name
 
@@ -124,7 +123,7 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
             alert('Please input a valid project name.');
             return false;
         }
-        if (checkProjectValidity(str)) {
+        if (isProjectNameValid(str)) {
 
             alert('Project Name must be different')
             return false;
