@@ -4,12 +4,7 @@ import Project from './project.js';
 import pubsub from './pubsub';
 import { initializeStorage } from './localStorage';
 
-// const onNewProject = ({ name }) => {
-//     const newProject = new Project(name);
-//     pubsub.publish('add-project-to-library', newProject);
 
-// };
-// pubsub.subscribe('add-new-project', onNewProject);
 initializeStorage();
 
 ProjectUI({

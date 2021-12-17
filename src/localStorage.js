@@ -14,12 +14,10 @@ const initializeStorage = function() {
         console.log(`Project ${obj.name} was added!`);
     }
     const getProject = (name) => {
-            return container.name;
-        }
-        // pubsub.subscribe('add-project-to-library', addProject);
+        return container.name;
+    }
     pubsub.subscribe('add-new-project', addProject);
 };
-// pubsub.subscribe('add-new-project', onNewProject);
 
 
 export { initializeStorage }
