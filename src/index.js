@@ -3,7 +3,6 @@ import { projectInputUI, ProjectUI } from './UI.js';
 import Project from './project.js';
 import pubsub from './pubsub';
 import { initializeStorage } from './localStorage';
-
 const onNewProject = ({ name }) => {
     const newProject = new Project(name);
     console.log("i added a new project class")

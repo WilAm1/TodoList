@@ -7,13 +7,13 @@ const ToDoUI = () => {
 const renderTodo = () => {
 
 }
-const renderToDoModal = (() => {
+const renderToDoModal = () => {
+    console.log('I will now show the modal!');
 
 
-    pubsub.subscribe('add')
+};
+pubsub.subscribe('make-modal', renderToDoModal);
 
-
-})();
 const renderAllTodos = () => {
     //Will render all todos
     //fetchs the data from ProjectUI
@@ -53,7 +53,6 @@ const ProjectUI = ({ root, todoContainer }) => {
                 name,
                 container
             });
-            console.log('I will now show the modal!');
         });
         container.appendChild(btn);
         //pubsub to remove project on the project list
