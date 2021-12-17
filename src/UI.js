@@ -66,9 +66,14 @@ const ProjectUI = ({ root, todoContainer }) => {
         <button class="project-exit-btn">X</button>
         `;
         return element
-    }
+    };
+
+
 
     const renderProjectDiv = ({ name }) => {
+        // if (checkProjectValidity(name)) {
+        //     return;
+        // };
         const newProject = makeProjectElement(name)
         const exitBtn = newProject.querySelector('.project-exit-btn');
         const paragraphElement = newProject.querySelector('p');
@@ -88,9 +93,11 @@ const ProjectUI = ({ root, todoContainer }) => {
         });
 
         root.appendChild(newProject);
+        //wil edit later
+        renderBtn(name);
     };
+    // pubsub.subscribe('check-project', checkProjectValidity)
     pubsub.subscribe('add-new-project', renderProjectDiv);
-    pubsub.subscribe('add-new-project', renderBtn);
     // pubsub.subscribe('project-click', renderBtn);
     pubsub.subscribe('remove-project', removeContents);
 };
@@ -99,19 +106,33 @@ const ProjectUI = ({ root, todoContainer }) => {
 
 
 //Handles the Popup 
-const projectInputUI = function({ root }) {
-    const mainBtn = root.querySelector('button');
+const projectInputUI = function({ DOMbtn, DOMlist }) {
+    const mainBtn = DOMbtn.querySelector('button');
     const hideBtn = (btn) => { btn.style.display = 'none'; };
     const showBtn = (btn) => { btn.style.display = "block"; };
+    const checkProjectValidity = (name) => {
+        const isAvailable = DOMlist.querySelector(`#${name}`);
+        console.log(isAvailable);
+        return !!isAvailable;
+
+    };
     const checkStrValidity = (str) => {
         // Add pubsub to check if there is a same project name
+
         if (!str) {
             console.log('invalid');
             alert('Please input a valid project name.');
             return false;
         }
+        if (checkProjectValidity(str)) {
+
+            alert('Project Name must be different')
+            return false;
+        }
+        // pubsub.publish('check-project', { name: str });
         return true;
     };
+
     const renderInputProject = function() {
         const div = document.createElement('div');
         div.innerHTML = `
@@ -131,14 +152,14 @@ const projectInputUI = function({ root }) {
                 console.log("The new project is Valid!", inputText);
                 div.remove();
                 showBtn(mainBtn);
-                pubsub.publish('add-new-project', { name: inputText });
+                pubsub.publish('add-new-project', { name: inputText })
             }
         });
         cancelBtn.addEventListener('click', () => {
             div.remove();
             showBtn(mainBtn);
         });
-        root.appendChild(div);
+        DOMbtn.appendChild(div);
         // Add event listener to close input div if user clicked outside the div
 
     }

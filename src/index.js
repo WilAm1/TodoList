@@ -9,11 +9,14 @@ const onNewProject = ({ name }) => {
     pubsub.publish('add-project-to-library', newProject);
 
 };
-initializeStorage();
 pubsub.subscribe('add-new-project', onNewProject);
+initializeStorage();
 
 ProjectUI({
     root: document.querySelector('#project-list'),
     todoContainer: document.querySelector('#main-content')
 })
-projectInputUI({ root: document.querySelector('#project-btn-container') })
+projectInputUI({
+    DOMbtn: document.querySelector('#project-btn-container'),
+    DOMlist: document.querySelector('#project-list'),
+});
