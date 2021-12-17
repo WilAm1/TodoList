@@ -38,7 +38,7 @@ const ProjectUI = ({ root, todoContainer }) => {
     const onProjectClick = ({ target }) => {
         removeContents();
         renderBtn({ name: target.name });
-        pubsub.publish('project-click', { name: target.id });
+        pubsub.publish('project-click', { name: target.dataset.name });
         console.log('I will now fetch local todos!', target);
     };
 
@@ -60,8 +60,9 @@ const ProjectUI = ({ root, todoContainer }) => {
     const makeProjectElement = (name) => {
         const element = document.createElement('div');
         element.classList.add('project');
+        element.dataset.name = `${name}-container`;
         element.innerHTML = `
-        <p class="project-name" id="${name}">${name}</p>
+        <p class="project-name" data-name="${name}">${name}</p>
         <button class="project-exit-btn">X</button>
         `;
         return element
