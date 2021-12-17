@@ -8,9 +8,34 @@ const ToDoUI = () => {
 const renderTodo = () => {
 
 }
-const renderToDoModal = () => {
+const renderToDoModal = ({ name, container }) => {
     console.log('I will now show the modal!');
 
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h1>Hello, I am a modal!</h1>
+            </div>`;
+    const closeButton = modal.querySelector(".close-button");
+    const showModal = () => {
+        modal.classList.toggle("show-modal");
+    };
+    const removeModal = () => {
+        modal.remove();
+    };
+
+    function windowOnClick(event) {
+        if (event.target === modal) {
+            modal.remove();
+
+        }
+    }
+    showModal();
+    closeButton.addEventListener("click", removeModal);
+    window.addEventListener("click", windowOnClick);
+    container.appendChild(modal);
 
 };
 pubsub.subscribe('make-modal', renderToDoModal);
@@ -47,7 +72,7 @@ const ProjectUI = ({ root, todoContainer }) => {
     const renderBtn = ({ name, container = todoContainer }) => {
         // Will always run since will wipe main content for every click
         if (container.querySelector('button')) return;
-        console.log("I added an Add todo Btn!");
+        console.log("I rendered the TODO + Btn!");
         const btn = makeToDoBtn(name);
         btn.addEventListener('click', () => {
             pubsub.publish('make-modal', {
