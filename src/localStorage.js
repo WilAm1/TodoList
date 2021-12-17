@@ -16,7 +16,13 @@ const initializeStorage = function() {
     const getProject = (name) => {
         return container.name;
     }
+
+
     pubsub.subscribe('add-new-project', addProject);
+
+    return {
+        getProject
+    }
 };
 
 

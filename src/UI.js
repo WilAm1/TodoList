@@ -1,6 +1,5 @@
 import pubsub from './pubsub';
 
-
 const ToDoUI = () => {
 
 };
@@ -110,8 +109,12 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
     const mainBtn = DOMbtn.querySelector('button');
     const hideBtn = (btn) => { btn.style.display = 'none'; };
     const showBtn = (btn) => { btn.style.display = "block"; };
+
+
     const isProjectNameValid = (name) => {
         const isAvailable = DOMlist.querySelector(`#${name}`);
+
+        //#Will Add later: use API to check localStorage if property is already used.
         return !!isAvailable;
     };
 
@@ -124,11 +127,10 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
             return false;
         }
         if (isProjectNameValid(str)) {
-
             alert('Project Name must be different')
             return false;
         }
-        // pubsub.publish('check-project', { name: str });
+        console.log('Is valid!', str)
         return true;
     };
 
@@ -140,7 +142,6 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
         <button id="cancel-new-project">Cancel</button>
         `;
 
-
         const addBtn = div.querySelector('#add-new-project');
         const cancelBtn = div.querySelector('#cancel-new-project');
 
@@ -148,7 +149,6 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
             const inputText = div.querySelector('input').value;
             const isValid = checkStrValidity(inputText);
             if (isValid) {
-                console.log("The new project is Valid!", inputText);
                 div.remove();
                 showBtn(mainBtn);
                 pubsub.publish('add-new-project', { name: inputText })
