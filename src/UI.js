@@ -176,6 +176,7 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
     };
 
     const checkStrValidity = (str) => {
+        str = str.trim();
         if (!str) {
             console.log('invalid');
             alert('Please input a valid project name.');
