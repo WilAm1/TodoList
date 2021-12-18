@@ -7,17 +7,10 @@ const ToDoUI = () => {
 };
 const renderTodo = () => {
 
-}
-const renderToDoModal = ({ name, container }) => {
-    console.log('I will now show the modal!');
+};
 
-    const modal = document.createElement('div');
-    modal.classList.add('modal');
-    modal.innerHTML = `
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h1>Hello, I am a modal!</h1>
-            </div>`;
+const eventManagerModal = (modal) => {
+
     const closeButton = modal.querySelector(".close-button");
     const showModal = () => {
         modal.classList.toggle("show-modal");
@@ -27,14 +20,44 @@ const renderToDoModal = ({ name, container }) => {
     };
 
     function windowOnClick(event) {
+        //Will utilize this later on the closing the add project
         if (event.target === modal) {
             modal.remove();
-
         }
     }
     showModal();
     closeButton.addEventListener("click", removeModal);
     window.addEventListener("click", windowOnClick);
+}
+
+//ToDo Modal Module
+const renderToDoModal = ({ name, container }) => {
+
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>New Task(to the project Name)</h3>
+            <span class="close-button">&times;</span>
+          </div>
+          <div class="modal-body">
+            <label for="title">Title:</label>
+            <input type="text">
+            <label for="description">Description:</label>
+            <textarea id="description" rows="4" required></textarea>
+            <label for="date">Due Date:</label>
+            <input type="date" id="date">
+            <label for="priority" required>Priority:</label>
+            <select id="priority" required>
+              <option value="low" selected>Low</option>
+              <option value="medium" >Medium</option>
+              <option value="high" >High</option>
+            </select>
+            <button>Add Task</button>
+           </div>
+        </div>`;
+    eventManagerModal(modal);
     container.appendChild(modal);
 
 };
