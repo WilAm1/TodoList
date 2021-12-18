@@ -12,6 +12,8 @@ const renderTodo = () => {
 const eventManagerModal = (modal) => {
     const closeButton = modal.querySelector(".close-button");
     const form = modal.querySelector('form');
+    const projectName = modal.querySelector('h3').dataset.projectName;
+    console.log(projectName);
     // gets all required inputs (title,priority,description)
     const formInputs = Array.from(form.querySelectorAll('[required'));
     console.log(formInputs);
@@ -28,9 +30,14 @@ const eventManagerModal = (modal) => {
             modal.remove();
         }
     };
+    const addNotRequiredValues = () => {
+        // optional if date is also input make it into another function
+        if (form.querySelector('#date').value) {
+            formInputs.push(form.querySelector('#date'))
+        };
+    };
     const checkFormValidity = () => {
         for (const input of formInputs) {
-
             if (!input.value.trim()) {
                 // Will change later into warning element
                 alert('Please input all fields');
@@ -53,7 +60,9 @@ const eventManagerModal = (modal) => {
     //form event listeners
     const submitBtn = modal.querySelector('button[type="submit"]');
     submitBtn.addEventListener('click', (e) => {
+        //Removes the default referesh on the form tag
         e.preventDefault();
+        addNotRequiredValues();
         if (checkFormValidity()) {
             console.log(getInputValues())
                 // I passed all form checks !
@@ -65,13 +74,12 @@ const eventManagerModal = (modal) => {
 
 //ToDo Modal Module
 const renderToDoModal = ({ name, container }) => {
-
     const modal = document.createElement('div');
     modal.classList.add('modal');
     modal.innerHTML = `
         <div class="modal-content">
           <div class="modal-header">
-            <h3>New Task(to the project Name)</h3>
+            <h3 data-project-name>New Task (${name})</h3>
             <span class="close-button">&times;</span>
           </div>
           <div class="modal-body">
@@ -122,7 +130,7 @@ const ProjectUI = ({ root, todoContainer }) => {
 
     const onProjectClick = ({ target }) => {
         removeContents();
-        renderBtn({ name: target.name });
+        renderBtn({ name: target.dataset.name });
         pubsub.publish('project-click', { name: target.dataset.name });
         console.log('I will now fetch local todos!', target);
     };
@@ -176,7 +184,7 @@ const ProjectUI = ({ root, todoContainer }) => {
 
         root.appendChild(newProject);
         //wil edit later
-        renderBtn(name);
+        renderBtn({ name });
     };
     // pubsub.subscribe('check-project', checkProjectValidity)
     pubsub.subscribe('add-new-project', renderProjectDiv);
