@@ -30,14 +30,20 @@ const eventManagerModal = (modal) => {
     };
     const checkFormValidity = () => {
         for (const input of formInputs) {
-            console.log(input.value);
-            if (!input.value) {
+
+            if (!input.value.trim()) {
                 // Will change later into warning element
                 alert('Please input all fields');
                 return false;
             }
         }
         return true;
+    };
+    const getInputValues = () => {
+        return formInputs.reduce((obj, input) => {
+            obj[input.id] = input.value;
+            return obj
+        }, {})
     };
     //show modal kinda redundant
     showModal();
@@ -49,7 +55,8 @@ const eventManagerModal = (modal) => {
     submitBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (checkFormValidity()) {
-            // I passed all form checks !
+            console.log(getInputValues())
+                // I passed all form checks !
             console.log('I passed all form checks!')
             modal.remove();
         };
