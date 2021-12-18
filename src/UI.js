@@ -8,12 +8,11 @@ const ToDoUI = () => {
 const renderTodo = () => {
 
 };
-
+//Function that handles all event listeners of the modals
 const eventManagerModal = (modal) => {
     const closeButton = modal.querySelector(".close-button");
     const form = modal.querySelector('form');
-    // const priorityInput = modal.querySelector('#priority');
-    // const descTextArea = modal.querySelector()
+    // gets all required inputs (title,priority,description)
     const formInputs = Array.from(form.querySelectorAll('[required'));
     console.log(formInputs);
     const showModal = () => {
@@ -23,12 +22,12 @@ const eventManagerModal = (modal) => {
         modal.remove();
     };
 
-    function windowOnClick(event) {
+    const windowOnClick = (event) => {
         //Will utilize this later on the closing the add project
         if (event.target === modal) {
             modal.remove();
         }
-    }
+    };
     const checkFormValidity = () => {
         for (const input of formInputs) {
             console.log(input.value);
@@ -45,14 +44,17 @@ const eventManagerModal = (modal) => {
     closeButton.addEventListener("click", removeModal);
     window.addEventListener("click", windowOnClick);
 
-
     //form event listeners
     const submitBtn = modal.querySelector('button[type="submit"]');
     submitBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        checkFormValidity();
+        if (checkFormValidity()) {
+            // I passed all form checks !
+            console.log('I passed all form checks!')
+            modal.remove();
+        };
     })
-}
+};
 
 //ToDo Modal Module
 const renderToDoModal = ({ name, container }) => {
