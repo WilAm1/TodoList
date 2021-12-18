@@ -10,7 +10,6 @@ const renderTodo = () => {
 };
 
 const eventManagerModal = (modal) => {
-
     const closeButton = modal.querySelector(".close-button");
     const showModal = () => {
         modal.classList.toggle("show-modal");
@@ -25,9 +24,17 @@ const eventManagerModal = (modal) => {
             modal.remove();
         }
     }
+    //show modal kinda redundant
     showModal();
     closeButton.addEventListener("click", removeModal);
     window.addEventListener("click", windowOnClick);
+
+
+    //form event listeners
+    const form = modal.querySelector('button[type="submit"]');
+    form.addEventListener('click', (e) => {
+        e.preventDefault();
+    })
 }
 
 //ToDo Modal Module
@@ -42,19 +49,21 @@ const renderToDoModal = ({ name, container }) => {
             <span class="close-button">&times;</span>
           </div>
           <div class="modal-body">
-            <label for="title">Title:</label>
-            <input type="text">
-            <label for="description">Description:</label>
-            <textarea id="description" rows="4" required></textarea>
-            <label for="date">Due Date:</label>
-            <input type="date" id="date">
-            <label for="priority" required>Priority:</label>
-            <select id="priority" required>
-              <option value="low" selected>Low</option>
-              <option value="medium" >Medium</option>
-              <option value="high" >High</option>
-            </select>
-            <button>Add Task</button>
+            <form id="todo-form">
+                <label for="title">Title:</label>
+                <input type="text" required>
+                <label for="description">Description:</label>
+                <textarea id="description" rows="4" required></textarea>
+                <label for="date">Due Date:</label>
+                <input type="date" id="date">
+                <label for="priority">Priority:</label>
+                <select id="priority" required>
+                <option value="low" selected>Low</option>
+                <option value="medium" >Medium</option>
+                <option value="high" >High</option>
+                </select>
+             </form>
+            <button form="todo-form" type="submit" id="form-submit-btn">Add Task</button>
            </div>
         </div>`;
     eventManagerModal(modal);
