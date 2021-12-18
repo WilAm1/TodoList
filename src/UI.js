@@ -132,7 +132,7 @@ const ProjectUI = ({ root, todoContainer }) => {
         removeContents();
         renderBtn({ name: target.dataset.name });
         pubsub.publish('project-click', { name: target.dataset.name });
-        console.log('I will now fetch local todos!', target);
+        console.log('I will now fetch todos from pubsub(project-click_');
     };
 
     const renderBtn = ({ name, container = todoContainer }) => {
@@ -186,9 +186,7 @@ const ProjectUI = ({ root, todoContainer }) => {
         //wil edit later
         renderBtn({ name });
     };
-    // pubsub.subscribe('check-project', checkProjectValidity)
     pubsub.subscribe('add-new-project', renderProjectDiv);
-    // pubsub.subscribe('project-click', renderBtn);
     pubsub.subscribe('remove-project', removeContents);
 };
 
