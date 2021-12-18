@@ -11,6 +11,11 @@ const renderTodo = () => {
 
 const eventManagerModal = (modal) => {
     const closeButton = modal.querySelector(".close-button");
+    const form = modal.querySelector('form');
+    // const priorityInput = modal.querySelector('#priority');
+    // const descTextArea = modal.querySelector()
+    const formInputs = Array.from(form.querySelectorAll('[required'));
+    console.log(formInputs);
     const showModal = () => {
         modal.classList.toggle("show-modal");
     };
@@ -24,6 +29,17 @@ const eventManagerModal = (modal) => {
             modal.remove();
         }
     }
+    const checkFormValidity = () => {
+        for (const input of formInputs) {
+            console.log(input.value);
+            if (!input.value) {
+                // Will change later into warning element
+                alert('Please input all fields');
+                return false;
+            }
+        }
+        return true;
+    };
     //show modal kinda redundant
     showModal();
     closeButton.addEventListener("click", removeModal);
@@ -31,9 +47,10 @@ const eventManagerModal = (modal) => {
 
 
     //form event listeners
-    const form = modal.querySelector('button[type="submit"]');
-    form.addEventListener('click', (e) => {
+    const submitBtn = modal.querySelector('button[type="submit"]');
+    submitBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        checkFormValidity();
     })
 }
 
@@ -55,7 +72,7 @@ const renderToDoModal = ({ name, container }) => {
                 <label for="description">Description:</label>
                 <textarea id="description" rows="4" required></textarea>
                 <label for="date">Due Date:</label>
-                <input type="date" id="date">
+                <input type="date" id="date" >
                 <label for="priority">Priority:</label>
                 <select id="priority" required>
                 <option value="low" selected>Low</option>
