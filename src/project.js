@@ -1,9 +1,18 @@
+import pubsub from './pubsub';
+
 export default class {
     constructor(name) {
         this.name = name;
         this.container = {};
         this.length = 0;
         //pubsub
+        pubsub.subscribe('add-todo', (obj) => {
+            this.add(obj);
+
+        });
+        pubsub.subscribe('remove-todo', () => {
+
+        });
     }
 
     get(key) {

@@ -9,17 +9,27 @@ const initializeStorage = function() {
     const container = {};
     container.default = new Project('default');
 
-    const addProject = (obj) => {
+    const addProject = ({ name: projectName }) => {
         //WIl revise later new Project(obj)
-        container[obj.name] = new Project(obj);
-        console.log(`Project ${obj.name} was added to storage!!`);
-    }
+        container[projectName] = new Project(projectName);
+        console.log(`Project ${container[projectName]} was added to storage!!`);
+        console.log(container)
+    };
+    const removeProject = ({ name }) => {
+        if (container[name]) {
+            delete container[name];
+        }
+    };
     const getProject = (name) => {
-        return container.name;
-    }
+        if (container[name]) {
+            return container[name]
+        }
+        return null;
+    };
 
 
     pubsub.subscribe('add-new-project', addProject);
+    pubsub.subscribe('remove-project', removeProject);
 
     return {
         getProject

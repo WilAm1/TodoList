@@ -212,6 +212,8 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
             alert('Project Name must be different')
             return false;
         }
+        //Add another conditionial if there is a localStorage
+        // if(localStorage) ...
         console.log('Is valid!', str)
         return true;
     };
