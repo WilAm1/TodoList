@@ -16,7 +16,6 @@ const eventManagerModal = (modal) => {
     console.log(projectName);
     // gets all required inputs (title,priority,description)
     const formInputs = Array.from(form.querySelectorAll('[required'));
-    console.log(formInputs);
     const showModal = () => {
         modal.classList.toggle("show-modal");
     };

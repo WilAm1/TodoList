@@ -12,7 +12,6 @@ const initializeStorage = function() {
     const addProject = ({ name: projectName }) => {
         //WIl revise later new Project(obj)
         container[projectName] = new Project(projectName);
-        console.log(`Project ${container[projectName]} was added to storage!!`);
         console.log(container)
     };
     const removeProject = ({ name }) => {
