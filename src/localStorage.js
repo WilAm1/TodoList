@@ -30,8 +30,8 @@ const initializeStorage = function() {
         if (myProject) {
             const newTodo = new ToDo(data)
             myProject.add(newTodo);
+            pubsub.publish('render-todo', newTodo);
         }
-        console.log(myProject)
 
     });
 

@@ -2,12 +2,13 @@ import pubsub from './pubsub';
 //Will be using localStorage to check if projectname is avaible.
 
 
-const ToDoUI = () => {
+const ToDoUI = (container) => {
+    const renderTodo = ({ title, description, date, priority }) => {
 
+    };
+    pubsub.subscribe('render-todo', renderTodo)
 };
-const renderTodo = () => {
 
-};
 //Function that handles all event listeners of the modals
 const eventManagerModal = (modal) => {
     const closeButton = modal.querySelector(".close-button");
@@ -261,4 +262,4 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
 }
 
 
-export { projectInputUI, ProjectUI }
+export { projectInputUI, ProjectUI, ToDoUI }
