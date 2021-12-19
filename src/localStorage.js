@@ -28,7 +28,8 @@ const initializeStorage = function() {
     pubsub.subscribe('convert-todo', ({ data, project }) => {
         const myProject = getProject(project);
         if (myProject) {
-            const newTodo = new ToDo({ data })
+            console.log(data)
+            const newTodo = new ToDo(data)
             myProject.add(newTodo);
         }
         console.log(myProject)

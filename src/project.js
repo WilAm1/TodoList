@@ -16,17 +16,17 @@ export default class {
         return this.container[key];
     }
     replace(obj) {
-        if (!!this.container[obj.name]) {
+        if (!!this.container[obj.title]) {
             return false;
         }
-        this.container[obj.name] = obj;
+        this.container[obj.title] = obj;
         return true;
     }
     add(obj) {
-        if (!!this.container[obj.name]) {
+        if (!!this.container[obj.title]) {
             return false;
         }
-        this.container[obj.name] = obj;
+        this.container[obj.title] = obj;
         this.length++;
         return true;
     }
