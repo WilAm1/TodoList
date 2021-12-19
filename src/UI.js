@@ -64,9 +64,9 @@ const eventManagerModal = (modal) => {
         e.preventDefault();
         addNotRequiredValues();
         if (checkFormValidity()) {
-            console.log(getInputValues())
-                // I passed all form checks !
-            console.log('I passed all form checks!')
+            const formData = getInputValues();
+            // I passed all form checks !
+            console.log('I passed all form checks!', formData)
             modal.remove();
         };
     })
@@ -85,7 +85,7 @@ const renderToDoModal = ({ name, container }) => {
           <div class="modal-body">
             <form id="todo-form">
                 <label for="title">Title:</label>
-                <input type="text" required>
+                <input type="text" required id="title">
                 <label for="description">Description:</label>
                 <textarea id="description" rows="4" required></textarea>
                 <label for="date">Due Date:</label>
@@ -104,24 +104,16 @@ const renderToDoModal = ({ name, container }) => {
     container.appendChild(modal);
 
 };
-pubsub.subscribe('make-modal', renderToDoModal);
 
-const renderAllTodos = () => {
-    //Will render all todos
-    //fetchs the data from ProjectUI
-    console.log('I rendered the todos!')
-};
+
+
+
 const ProjectUI = ({ root, todoContainer }) => {
     const makeToDoBtn = () => {
         const addBtn = document.createElement('button');
         addBtn.textContent = "+";
         addBtn.classList.add('add-todo-btn');
         return addBtn;
-    };
-
-    const removeToDoBtn = () => {
-        const btn = todoContainer.querySelector('button');
-        if (btn) btn.remove();
     };
 
     const removeContents = () => {
@@ -188,6 +180,8 @@ const ProjectUI = ({ root, todoContainer }) => {
     };
     pubsub.subscribe('add-new-project', renderProjectDiv);
     pubsub.subscribe('remove-project', removeContents);
+    pubsub.subscribe('make-modal', renderToDoModal);
+
 };
 
 
