@@ -2,11 +2,24 @@ import pubsub from './pubsub';
 //Will be using localStorage to check if projectname is avaible.
 
 
-const ToDoUI = (container) => {
+const ToDoUI = ({ container }) => {
+    const formatDate = (date) => {
+        return (date) ? date : 'no due date'
+    }
     const renderTodo = ({ title, description, date, priority }) => {
-
+        const card = document.createElement('div');
+        const formattedDate = formatDate(date);
+        card.classList.add('todo-card');
+        card.innerHTML = `
+          <div class="card-partial">
+            <p class="card-title" data-todo-name="${title}">${title}</p>
+            <p class="card-date">${formattedDate}</p>
+          </div>
+                `;
+        container.appendChild(card)
     };
-    pubsub.subscribe('render-todo', renderTodo)
+
+    pubsub.subscribe('render-todo', renderTodo);
 };
 
 //Function that handles all event listeners of the modals

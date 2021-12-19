@@ -6,16 +6,18 @@ import pubsub from './pubsub';
 import { initializeStorage } from './localStorage';
 
 
-const todoContainer = document.querySelector('#project-list');
+const projectContainer = document.querySelector('#project-list');
+
+const todoContainer = document.querySelector('#main-content');
 initializeStorage();
 
 ToDoUI({ container: todoContainer });
 
 ProjectUI({
-    root: todoContainer,
-    todoContainer: document.querySelector('#main-content')
+    root: projectContainer,
+    todoContainer
 })
 projectInputUI({
     DOMbtn: document.querySelector('#project-btn-container'),
-    DOMlist: todoContainer,
+    DOMlist: projectContainer,
 });
