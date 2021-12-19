@@ -5,7 +5,12 @@ import pubsub from './pubsub';
 const ToDoUI = ({ container }) => {
     const formatDate = (date) => {
         return (date) ? date : 'no due date'
-    }
+    };
+    const onCardClick = (e) => {
+        console.log(e.target)
+        e.target.querySelector(".card-extended").classList.toggle('active');
+
+    };
     const renderTodo = ({ title, description, date, priority }) => {
         const card = document.createElement('div');
         const formattedDate = formatDate(date);
@@ -15,8 +20,14 @@ const ToDoUI = ({ container }) => {
             <p class="card-title" data-todo-name="${title}">${title}</p>
             <p class="card-date">${formattedDate}</p>
           </div>
+          <div class="card-extended">
+            <p class="card-description">${description}</p>
+            <p class="card-priority">${priority}</p>
+          </div>
                 `;
-        container.appendChild(card)
+        const hiddenElement = card.querySelector('.card-extended');
+        card.addEventListener('click', onCardClick);
+        container.appendChild(card);
     };
 
     pubsub.subscribe('render-todo', renderTodo);

@@ -115,3 +115,29 @@ main div#main-content>* {
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
+
+
+/* TODO card */
+
+
+/*           <div class="card-partial">
+            <p class="card-title" data-todo-name="${title}">${title}</p>
+            <p class="card-date">${formattedDate}</p>
+          </div>
+          <div class="card-extended">
+            <p class="card-description">${description}</p>
+            <p class="card-priority">${priority}</p>
+          </div> */
+
+.todo-card {
+    background-color: #dddddd;
+    padding: 20px;
+}
+
+.card-extended {
+    display: none;
+}
+
+.card-extended.active {
+    display: block;
+}
