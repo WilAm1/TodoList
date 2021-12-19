@@ -1,6 +1,6 @@
 import Project from './project';
 import pubsub from './pubsub';
-
+import ToDo from './todo'
 
 const initializeStorage = function() {
     //local storage WEB API
@@ -25,6 +25,15 @@ const initializeStorage = function() {
         }
         return null;
     };
+    pubsub.subscribe('convert-todo', ({ data, project }) => {
+        const myProject = getProject(project);
+        if (myProject) {
+            const newTodo = new ToDo({ data })
+            myProject.add(newTodo);
+        }
+        console.log(myProject)
+
+    })
 
 
     pubsub.subscribe('add-new-project', addProject);

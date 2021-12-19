@@ -64,8 +64,12 @@ const eventManagerModal = (modal) => {
         addNotRequiredValues();
         if (checkFormValidity()) {
             const formData = getInputValues();
-            // I passed all form checks !
             console.log('I passed all form checks!', formData)
+                // Will add todo to project container !
+            pubsub.publish('convert-todo', {
+                data: {...formData, },
+                project: projectName,
+            })
             modal.remove();
         };
     })
@@ -78,7 +82,7 @@ const renderToDoModal = ({ name, container }) => {
     modal.innerHTML = `
         <div class="modal-content">
           <div class="modal-header">
-            <h3 data-project-name>New Task (${name})</h3>
+            <h3 data-project-name="${name}">New Task (${name})</h3>
             <span class="close-button">&times;</span>
           </div>
           <div class="modal-body">

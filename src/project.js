@@ -6,13 +6,10 @@ export default class {
         this.container = {};
         this.length = 0;
         //pubsub
-        pubsub.subscribe('add-todo', (obj) => {
-            this.add(obj);
+        // pubsub.subscribe('add-todo', this.add);
+        // pubsub.subscribe('remove-todo', () => {
 
-        });
-        pubsub.subscribe('remove-todo', () => {
-
-        });
+        // });
     }
 
     get(key) {

@@ -1,8 +1,10 @@
 import css from './styles.css';
 import { projectInputUI, ProjectUI } from './UI.js';
 import Project from './project.js';
+import ToDo from './todo';
 import pubsub from './pubsub';
 import { initializeStorage } from './localStorage';
+
 
 
 initializeStorage();
