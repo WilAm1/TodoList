@@ -66,7 +66,7 @@ const eventManagerModal = (modal) => {
             const formData = getInputValues();
             console.log('I passed all form checks!', formData)
                 // Will add todo to project container !
-            pubsub.publish('convert-todo', {
+            pubsub.publish('add-todo', {
                 data: {...formData, },
                 project: projectName,
             })

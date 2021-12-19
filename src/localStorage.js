@@ -25,16 +25,15 @@ const initializeStorage = function() {
         }
         return null;
     };
-    pubsub.subscribe('convert-todo', ({ data, project }) => {
+    pubsub.subscribe('add-todo', ({ data, project }) => {
         const myProject = getProject(project);
         if (myProject) {
-            console.log(data)
             const newTodo = new ToDo(data)
             myProject.add(newTodo);
         }
         console.log(myProject)
 
-    })
+    });
 
 
     pubsub.subscribe('add-new-project', addProject);
