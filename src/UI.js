@@ -6,11 +6,7 @@ const ToDoUI = ({ container }) => {
     const formatDate = (date) => {
         return (date) ? date : 'no due date'
     };
-    const onCardClick = (e) => {
-        console.log(e.target)
-        e.target.querySelector(".card-extended").classList.toggle('active');
 
-    };
     const renderTodo = ({ title, description, date, priority }) => {
         const card = document.createElement('div');
         const formattedDate = formatDate(date);
@@ -26,7 +22,9 @@ const ToDoUI = ({ container }) => {
           </div>
                 `;
         const hiddenElement = card.querySelector('.card-extended');
-        card.addEventListener('click', onCardClick);
+        card.addEventListener('click', () => {
+            hiddenElement.classList.toggle('active');
+        });
         container.appendChild(card);
     };
 
