@@ -9,5 +9,5 @@
 .. SOLID principles
 
 Used vanilla JS and webpack.
-Visit the demo here [Live Preview]()
+Visit the demo here [Live Preview](https://wilam1.github.io/TodoList/)
 
