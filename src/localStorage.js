@@ -32,7 +32,14 @@ const initializeStorage = function() {
             myProject.add(newTodo);
             pubsub.publish('render-todo', newTodo);
         }
-
+    });
+    pubsub.subscribe('project-click', ({ name }) => {
+        const project = getProject(name);
+        const allTasks = project.getAll();
+        console.log(allTasks);
+        for (const [key, value] of Object.entries(allTasks)) {
+            console.log(value);
+        }
     });
 
 

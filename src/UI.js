@@ -87,8 +87,7 @@ const eventManagerModal = (modal) => {
         addNotRequiredValues();
         if (checkFormValidity()) {
             const formData = getInputValues();
-            console.log('I passed all form checks!', formData)
-                // Will add todo to project container !
+            // Will add todo to project container !
             pubsub.publish('add-todo', {
                 data: {...formData, },
                 project: projectName,
