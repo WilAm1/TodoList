@@ -15,15 +15,21 @@ const ToDoUI = ({ container }) => {
           <div class="card-partial">
             <p class="card-title" data-todo-name="${title}">${title}</p>
             <p class="card-date">${formattedDate}</p>
+            <button class="remove-todo-btn">X</button>
           </div>
           <div class="card-extended">
             <p class="card-description">${description}</p>
             <p class="card-priority">${priority}</p>
           </div>
                 `;
+        const partial = card.querySelector('.card-partial');
         const hiddenElement = card.querySelector('.card-extended');
-        card.addEventListener('click', () => {
+        partial.addEventListener('click', () => {
             hiddenElement.classList.toggle('active');
+        });
+        const removeBtn = card.querySelector('button');
+        removeBtn.addEventListener('click', () => {
+
         });
         container.appendChild(card);
     };
@@ -36,7 +42,6 @@ const eventManagerModal = (modal) => {
     const closeButton = modal.querySelector(".close-button");
     const form = modal.querySelector('form');
     const projectName = modal.querySelector('h3').dataset.projectName;
-    console.log(projectName);
     // gets all required inputs (title,priority,description)
     const formInputs = Array.from(form.querySelectorAll('[required'));
     const showModal = () => {
@@ -134,9 +139,10 @@ const renderToDoModal = ({ name, container }) => {
 
 
 const ProjectUI = ({ root, todoContainer }) => {
+
     const makeToDoBtn = () => {
         const addBtn = document.createElement('button');
-        addBtn.textContent = "+";
+        addBtn.textContent = "(+) Add Task";
         addBtn.classList.add('add-todo-btn');
         return addBtn;
     };
@@ -148,14 +154,13 @@ const ProjectUI = ({ root, todoContainer }) => {
     const onProjectClick = ({ target }) => {
         removeContents();
         renderBtn({ name: target.dataset.name });
+        // console.log(`I will now fetch todos from ${target}`);
         pubsub.publish('project-click', { name: target.dataset.name });
-        console.log('I will now fetch todos from pubsub(project-click_');
     };
 
     const renderBtn = ({ name, container = todoContainer }) => {
         // Will always run since will wipe main content for every click
         if (container.querySelector('button')) return;
-        console.log("I rendered the TODO + Btn!");
         const btn = makeToDoBtn(name);
         btn.addEventListener('click', () => {
             pubsub.publish('make-modal', {
@@ -239,7 +244,7 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
         }
         //Add another conditionial if there is a localStorage
         // if(localStorage) ...
-        console.log('Is valid!', str)
+        // console.log('Is valid!', str)    
         return true;
     };
 
