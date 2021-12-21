@@ -39,8 +39,13 @@ const ToDoUI = ({ container }) => {
 
         container.appendChild(card);
     };
+    const renderInvalidTodo = ({ title }) => {
+        alert(`"${title}" is already been used! use different title!`)
+
+    };
 
     pubsub.subscribe('render-todo', renderTodo);
+    pubsub.subscribe('invalid-todo', renderInvalidTodo);
 };
 
 //Function that handles all event listeners of the modals

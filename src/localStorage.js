@@ -28,6 +28,12 @@ const initializeStorage = function() {
     pubsub.subscribe('add-todo', ({ data, project }) => {
         const myProject = getProject(project);
         if (myProject) {
+            if (myProject.get(data.title)) {
+                pubsub.publish('invalid-todo', { title: data.title });
+                console.log('successfully blocked!')
+                return
+            }
+
             const newTodo = new ToDo(data)
             myProject.add(newTodo);
             pubsub.publish('render-todo', { projectName: myProject.name, todo: newTodo });
