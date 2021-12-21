@@ -7,7 +7,8 @@ const ToDoUI = ({ container }) => {
         return (date) ? date : 'no due date'
     };
 
-    const renderTodo = ({ title, description, date, priority }) => {
+    const renderTodo = ({ projectName, todo }) => {
+        const { title, description, date, priority } = todo;
         const card = document.createElement('div');
         const formattedDate = formatDate(date);
         card.classList.add('todo-card');
@@ -29,7 +30,8 @@ const ToDoUI = ({ container }) => {
         });
         const removeBtn = card.querySelector('button');
         removeBtn.addEventListener('click', () => {
-
+            pubsub.publish('remove-todo', { projectName, todo });
+            card.remove();
         });
         container.appendChild(card);
     };

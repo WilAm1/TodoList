@@ -30,7 +30,15 @@ const initializeStorage = function() {
         if (myProject) {
             const newTodo = new ToDo(data)
             myProject.add(newTodo);
-            pubsub.publish('render-todo', newTodo);
+            pubsub.publish('render-todo', { projectName: myProject.name, todo: newTodo });
+        }
+    });
+    pubsub.subscribe('remove-todo', ({ projectName, todo }) => {
+        console.log(projectName)
+        const project = getProject(projectName);
+        if (project) {
+            project.remove(todo.title);
+            console.log(project);
         }
     });
     pubsub.subscribe('project-click', ({ name }) => {
@@ -38,9 +46,10 @@ const initializeStorage = function() {
         const allTasks = project.getAll();
         for (const [key, value] of Object.entries(allTasks)) {
             console.log(value);
-            pubsub.publish('render-todo', value)
+            pubsub.publish('render-todo', { projectName: key, todo: value })
         }
     });
+
 
 
     pubsub.subscribe('add-new-project', addProject);
