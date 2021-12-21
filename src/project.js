@@ -1,13 +1,9 @@
-import pubsub from './pubsub';
-
 export default class {
     name = this.name;
     constructor(name) {
         this.name = name;
         this.container = {};
         this.length = 0;
-        //pubsub
-        // pubsub.subscribe('add-todo', this.add);
 
     }
     get(key) {
