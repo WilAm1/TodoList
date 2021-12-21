@@ -45,7 +45,6 @@ const initializeStorage = function() {
         const project = getProject(name);
         const allTasks = project.getAll();
         for (const [key, value] of Object.entries(allTasks)) {
-            console.log(value);
             pubsub.publish('render-todo', { projectName: key, todo: value })
         }
     });

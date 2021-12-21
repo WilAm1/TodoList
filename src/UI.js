@@ -12,6 +12,7 @@ const ToDoUI = ({ container }) => {
         const card = document.createElement('div');
         const formattedDate = formatDate(date);
         card.classList.add('todo-card');
+        card.dataset.insideProject = projectName;
         card.innerHTML = `
           <div class="card-partial">
             <p class="card-title" data-todo-name="${title}">${title}</p>
@@ -28,11 +29,14 @@ const ToDoUI = ({ container }) => {
         partial.addEventListener('click', () => {
             hiddenElement.classList.toggle('active');
         });
+
         const removeBtn = card.querySelector('button');
         removeBtn.addEventListener('click', () => {
             pubsub.publish('remove-todo', { projectName, todo });
             card.remove();
         });
+
+
         container.appendChild(card);
     };
 
