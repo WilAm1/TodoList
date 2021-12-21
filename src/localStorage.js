@@ -55,10 +55,13 @@ const initializeStorage = function({ inbox, todoContainer }) {
     pubsub.subscribe('project-click', ({ name }) => {
         const project = getProject(name);
         const allTasks = project.getAll();
-        if (allTasks) {
-            for (const [key, value] of Object.entries(allTasks)) {
-                pubsub.publish('render-todo', { projectName: key, todo: value })
-            }
+        if (Object.keys(allTasks).length === 0 && allTasks.constructor === Object) {
+            console.log('I have no tasks!')
+            console.log('')
+            return
+        }
+        for (const [key, value] of Object.entries(allTasks)) {
+            pubsub.publish('render-todo', { projectName: key, todo: value })
         }
     });
 
