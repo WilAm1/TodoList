@@ -6,15 +6,16 @@ import { initializeStorage } from './localStorage';
 
 const projectContainer = document.querySelector('#project-list');
 const todoContainer = document.querySelector('#main-content');
-
-initializeStorage();
-
-ToDoUI({ container: todoContainer });
+const inbox = document.querySelector("#inbox");
 
 ProjectUI({
     root: projectContainer,
     todoContainer
 })
+initializeStorage({ inbox, todoContainer });
+
+ToDoUI({ container: todoContainer });
+
 projectInputUI({
     DOMbtn: document.querySelector('#project-btn-container'),
     DOMlist: projectContainer,

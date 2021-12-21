@@ -2,12 +2,17 @@ import Project from './project';
 import pubsub from './pubsub';
 import ToDo from './todo'
 
-const initializeStorage = function() {
+const initializeStorage = function({ inbox, todoContainer }) {
     //local storage WEB API
 
-    //If there is no local storage
     const container = {};
     container.default = new Project('default');
+
+    inbox.addEventListener('click', (e) => {
+        pubsub.publish('default-project', e);
+    });
+    //If there is no local storage
+
 
     const addProject = ({ name: projectName }) => {
         //WIl revise later new Project(obj)

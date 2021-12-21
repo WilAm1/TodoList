@@ -219,6 +219,7 @@ const ProjectUI = ({ root, todoContainer }) => {
         //wil edit later
         renderBtn({ name });
     };
+    pubsub.subscribe('default-project', onProjectClick);
     pubsub.subscribe('add-new-project', renderProjectDiv);
     pubsub.subscribe('remove-project', removeContents);
     pubsub.subscribe('make-modal', renderToDoModal);
