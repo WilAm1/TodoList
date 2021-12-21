@@ -14,7 +14,6 @@ const savedProjects = (() => {
         const name = project.name;
         const JSONProject = JSON.stringify(project);
         localStorage.setItem(name, JSONProject);
-        console.log(localStorage.getItem(name))
     };
     const removeProject = (project) => {
         localStorage.removeItem(project)
@@ -68,7 +67,6 @@ const initializeStorage = function({ inbox, todoContainer }) {
     const addProject = ({ name: projectName }) => {
         //WIl revise later new Project(obj)
         container[projectName] = new Project(projectName);
-        console.log(container);
         if (savedProjects) {
             savedProjects.updateProject(container[projectName]);
         }
@@ -121,13 +119,20 @@ const initializeStorage = function({ inbox, todoContainer }) {
             pubsub.publish('render-todo', { projectName: key, todo: value })
         }
     });
-
+    pubsub.subscribe('fetch-projects', () => {
+        for (const [key] of Object.entries(container)) {
+            // console.log(key);
+            if (key === 'default') continue
+            pubsub.publish('add-new-project', { name: key })
+        }
+    });
 
 
     pubsub.subscribe('add-new-project', addProject);
     pubsub.subscribe('remove-project', removeProject);
     //renders the inbox project at DOMLoad
     pubsub.publish('default-project', { target: inbox });
+    pubsub.publish('fetch-projects')
 
 
     return {
