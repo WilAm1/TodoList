@@ -1,6 +1,5 @@
 import Project from './project';
 import pubsub from './pubsub';
-import todo from './todo';
 import ToDo from './todo'
 
 
@@ -15,6 +14,7 @@ const savedProjects = (() => {
         const name = project.name;
         const JSONProject = JSON.stringify(project);
         localStorage.setItem(name, JSONProject);
+        console.log(localStorage.getItem(name))
     };
     const removeProject = (project) => {
         localStorage.removeItem(project)
@@ -27,19 +27,22 @@ const savedProjects = (() => {
             myContainer[projectName] = new Project(projectName);
 
             for (let [, todoObj] of Object.entries(project.container)) {
-                todoObj = JSON.parse(todoObj);
-                console.log(todoObj);
-                myContainer[projectName].add(new ToDo(todoObj));
+                const newTodo = new ToDo(todoObj);
+                // console.log(newTodo);
+                myContainer[projectName].add(newTodo);
             }
-            console.log(myContainer[projectName]);
+            // console.log(myContainer[projectName]);
+
         }
         return myContainer;
     };
 
     pubsub.subscribe('fetch-local-storage', getProjects)
 
-    return { getProjects }
+    return { getProjects, updateProject }
 })();
+
+
 const initializeStorage = function({ inbox, todoContainer }) {
     //local storage WEB API
 
@@ -48,6 +51,7 @@ const initializeStorage = function({ inbox, todoContainer }) {
 
     if (savedProjects) {
         container = savedProjects.getProjects();
+        console.log(container);
 
     } else {
         container = {
@@ -64,7 +68,10 @@ const initializeStorage = function({ inbox, todoContainer }) {
     const addProject = ({ name: projectName }) => {
         //WIl revise later new Project(obj)
         container[projectName] = new Project(projectName);
-        console.log(container)
+        console.log(container);
+        if (savedProjects) {
+            savedProjects.updateProject(container[projectName]);
+        }
     };
     const removeProject = ({ name }) => {
         if (container[name]) {
@@ -80,6 +87,7 @@ const initializeStorage = function({ inbox, todoContainer }) {
     pubsub.subscribe('add-todo', ({ data, project }) => {
         const myProject = getProject(project);
         if (myProject) {
+
             if (myProject.get(data.title)) {
                 pubsub.publish('invalid-todo', { title: data.title });
                 console.log('successfully blocked!')
@@ -88,6 +96,9 @@ const initializeStorage = function({ inbox, todoContainer }) {
 
             const newTodo = new ToDo(data)
             myProject.add(newTodo);
+            if (savedProjects) {
+                savedProjects.updateProject(myProject);
+            }
             pubsub.publish('render-todo', { projectName: myProject.name, todo: newTodo });
         }
     });

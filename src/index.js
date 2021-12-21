@@ -8,13 +8,13 @@ const projectContainer = document.querySelector('#project-list');
 const todoContainer = document.querySelector('#main-content');
 const inbox = document.querySelector("#inbox");
 
+ToDoUI({ container: todoContainer });
 ProjectUI({
     root: projectContainer,
     todoContainer
 })
 initializeStorage({ inbox, todoContainer });
 
-ToDoUI({ container: todoContainer });
 
 projectInputUI({
     DOMbtn: document.querySelector('#project-btn-container'),
