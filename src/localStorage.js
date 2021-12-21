@@ -5,13 +5,13 @@ import ToDo from './todo'
 const initializeStorage = function({ inbox, todoContainer }) {
     //local storage WEB API
 
+    //If there is no local storage
     const container = {};
     container.default = new Project('default');
 
     inbox.addEventListener('click', (e) => {
         pubsub.publish('default-project', e);
     });
-    //If there is no local storage
 
 
     const addProject = ({ name: projectName }) => {
@@ -57,7 +57,6 @@ const initializeStorage = function({ inbox, todoContainer }) {
         const allTasks = project.getAll();
         if (Object.keys(allTasks).length === 0 && allTasks.constructor === Object) {
             console.log('I have no tasks!')
-            console.log('')
             return
         }
         for (const [key, value] of Object.entries(allTasks)) {
@@ -69,6 +68,9 @@ const initializeStorage = function({ inbox, todoContainer }) {
 
     pubsub.subscribe('add-new-project', addProject);
     pubsub.subscribe('remove-project', removeProject);
+    //renders the inbox project at DOMLoad
+    pubsub.publish('default-project', { target: inbox });
+
 
     return {
         getProject
