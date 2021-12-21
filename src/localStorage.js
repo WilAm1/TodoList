@@ -1,13 +1,60 @@
 import Project from './project';
 import pubsub from './pubsub';
+import todo from './todo';
 import ToDo from './todo'
 
+
+//Local Storage Stuff
+const savedProjects = (() => {
+    const defaultProject = localStorage.getItem('default');
+    if (!defaultProject) {
+        localStorage.setItem('default', JSON.stringify(new Project('default')));
+    }
+
+    const updateProject = (project) => {
+        const name = project.name;
+        const JSONProject = JSON.stringify(project);
+        localStorage.setItem(name, JSONProject);
+    };
+    const removeProject = (project) => {
+        localStorage.removeItem(project)
+    };
+
+    const getProjects = () => {
+        const myContainer = {};
+        for (let [projectName, project] of Object.entries(localStorage)) {
+            project = JSON.parse(project);
+            myContainer[projectName] = new Project(projectName);
+
+            for (let [, todoObj] of Object.entries(project.container)) {
+                todoObj = JSON.parse(todoObj);
+                console.log(todoObj);
+                myContainer[projectName].add(new ToDo(todoObj));
+            }
+            console.log(myContainer[projectName]);
+        }
+        return myContainer;
+    };
+
+    pubsub.subscribe('fetch-local-storage', getProjects)
+
+    return { getProjects }
+})();
 const initializeStorage = function({ inbox, todoContainer }) {
     //local storage WEB API
 
     //If there is no local storage
-    const container = {};
-    container.default = new Project('default');
+    let container;
+
+    if (savedProjects) {
+        container = savedProjects.getProjects();
+
+    } else {
+        container = {
+            default: new Project('default')
+        };
+        // container.default = new Project('default');
+    }
 
     inbox.addEventListener('click', (e) => {
         pubsub.publish('default-project', e);

@@ -1,8 +1,8 @@
 export default class {
     name = this.name;
-    constructor(name) {
+    constructor(name, container = {}) {
         this.name = name;
-        this.container = {};
+        this.container = container;
         this.length = 0;
 
     }
