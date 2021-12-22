@@ -63,6 +63,7 @@ const initializeStorage = function({ inbox, todoContainer }) {
 
 
     const addProject = ({ name: projectName }) => {
+        // hmm checks if there is same name
         if (container[projectName]) {
             return
         }
@@ -91,7 +92,7 @@ const initializeStorage = function({ inbox, todoContainer }) {
     pubsub.subscribe('add-todo', ({ data, project }) => {
         const myProject = getProject(project);
         if (myProject) {
-
+            //error handling for blocking same name todo
             if (myProject.get(data.title)) {
                 pubsub.publish('invalid-todo', { title: data.title });
                 console.log('successfully blocked!')

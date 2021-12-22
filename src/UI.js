@@ -2,52 +2,6 @@ import pubsub from './pubsub';
 //Will be using localStorage to check if projectname is avaible.
 
 
-const ToDoUI = ({ container }) => {
-    const formatDate = (date) => {
-        return (date) ? date : 'no due date'
-    };
-
-    const renderTodo = ({ projectName, todo }) => {
-        const { title, description, date, priority } = todo;
-        const card = document.createElement('div');
-        const formattedDate = formatDate(date);
-        card.classList.add('todo-card');
-        card.dataset.insideProject = projectName;
-        card.innerHTML = `
-          <div class="card-partial">
-            <p class="card-title" data-todo-name="${title}">${title}</p>
-            <p class="card-date">${formattedDate}</p>
-            <button class="remove-todo-btn">X</button>
-          </div>
-          <div class="card-extended">
-            <p class="card-description">${description}</p>
-            <p class="card-priority">${priority}</p>
-          </div>
-                `;
-        const partial = card.querySelector('.card-partial');
-        const hiddenElement = card.querySelector('.card-extended');
-        partial.addEventListener('click', () => {
-            hiddenElement.classList.toggle('active');
-        });
-
-        const removeBtn = card.querySelector('button');
-        removeBtn.addEventListener('click', () => {
-            pubsub.publish('remove-todo', { projectName, todo });
-            card.remove();
-        });
-
-
-        container.appendChild(card);
-    };
-    const renderInvalidTodo = ({ title }) => {
-        alert(`"${title}" is already been used! use different title!`)
-
-    };
-
-    pubsub.subscribe('render-todo', renderTodo);
-    pubsub.subscribe('invalid-todo', renderInvalidTodo);
-};
-
 //Function that handles all event listeners of the modals
 const eventManagerModal = (modal) => {
     const closeButton = modal.querySelector(".close-button");
@@ -112,15 +66,13 @@ const eventManagerModal = (modal) => {
         };
     })
 };
-
-//ToDo Modal Module
-const renderToDoModal = ({ name, container }) => {
+const makeToDoModalStructure = (name, modalTitle) => {
     const modal = document.createElement('div');
     modal.classList.add('modal');
     modal.innerHTML = `
         <div class="modal-content">
           <div class="modal-header">
-            <h3 data-project-name="${name}">New Task (${name})</h3>
+            <h3 data-project-name="${name}">${modalTitle}</h3>
             <span class="close-button">&times;</span>
           </div>
           <div class="modal-body">
@@ -141,10 +93,72 @@ const renderToDoModal = ({ name, container }) => {
             <button form="todo-form" type="submit" id="form-submit-btn">Add Task</button>
            </div>
         </div>`;
+    return modal;
+};
+
+
+//ToDo Modal Module
+const renderNewToDoModal = ({ name, container }) => {
+    const modalTitle = `New Task (${name})`;
+    const modal = makeToDoModalStructure(name, modalTitle);
     eventManagerModal(modal);
     container.appendChild(modal);
 
 };
+
+
+const ToDoUI = ({ container }) => {
+    const formatDate = (date) => {
+        return (date) ? date : 'no due date'
+    };
+
+    const renderTodo = ({ projectName, todo }) => {
+        const { title, description, date, priority } = todo;
+        const card = document.createElement('div');
+        const formattedDate = formatDate(date);
+        card.classList.add('todo-card');
+        card.dataset.insideProject = projectName;
+        card.innerHTML = `
+          <div class="card-partial">
+            <p class="card-title" data-todo-name="${title}">${title}</p>
+            <p class="card-date">${formattedDate}</p>
+            <button class="remove-todo-btn">X</button>
+            <button class="modify-todo-btn">edit</button>
+          </div>
+          <div class="card-extended">
+            <p class="card-description">${description}</p>
+            <p class="card-priority">${priority}</p>
+          </div>
+                `;
+        const partial = card.querySelector('.card-partial');
+        const hiddenElement = card.querySelector('.card-extended');
+        partial.addEventListener('click', () => {
+            hiddenElement.classList.toggle('active');
+        });
+
+        const removeBtn = card.querySelector('button.remove-todo-btn');
+        removeBtn.addEventListener('click', () => {
+            pubsub.publish('remove-todo', { projectName, todo });
+            card.remove();
+        });
+        const editBtn = card.querySelector('button.modify-todo-btn');
+        editBtn.addEventListener('click', () => {
+
+        });
+
+
+        container.appendChild(card);
+    };
+    const renderInvalidTodo = ({ title }) => {
+        alert(`"${title}" is already been used! use different title!`)
+
+    };
+
+    pubsub.subscribe('render-todo', renderTodo);
+    pubsub.subscribe('invalid-todo', renderInvalidTodo);
+};
+
+
 
 
 
@@ -230,7 +244,7 @@ const ProjectUI = ({ root, todoContainer }) => {
     pubsub.subscribe('default-project', onProjectSingleClick);
     pubsub.subscribe('add-new-project', renderProjectDiv);
     pubsub.subscribe('remove-project', removeContents);
-    pubsub.subscribe('make-modal', renderToDoModal);
+    pubsub.subscribe('make-modal', renderNewToDoModal);
 
 };
 
