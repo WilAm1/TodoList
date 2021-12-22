@@ -3,12 +3,16 @@ import pubsub from './pubsub';
 
 
 //Function that handles all event listeners of the modals
-const eventManagerModal = (modal) => {
+const eventManagerModal = (modal, pubsubFunc) => {
+
+
     const closeButton = modal.querySelector(".close-button");
     const form = modal.querySelector('form');
     const projectName = modal.querySelector('h3').dataset.projectName;
     // gets all required inputs (title,priority,description)
     const formInputs = Array.from(form.querySelectorAll('[required'));
+
+
     const showModal = () => {
         modal.classList.toggle("show-modal");
     };
@@ -58,14 +62,14 @@ const eventManagerModal = (modal) => {
         if (checkFormValidity()) {
             const formData = getInputValues();
             // Will add todo to project container !
-            pubsub.publish('add-todo', {
-                data: {...formData, },
-                project: projectName,
-            })
+            pubsubFunc({ data: {...formData }, project: projectName });
+
             modal.remove();
         };
     })
 };
+
+
 const makeToDoModalStructure = (name, modalTitle) => {
     const modal = document.createElement('div');
     modal.classList.add('modal');
@@ -101,11 +105,25 @@ const makeToDoModalStructure = (name, modalTitle) => {
 const renderNewToDoModal = ({ name, container }) => {
     const modalTitle = `New Task (${name})`;
     const modal = makeToDoModalStructure(name, modalTitle);
-    eventManagerModal(modal);
+    eventManagerModal(modal, ({ data, project }) => {
+        pubsub.publish('add-todo', {
+            data,
+            project,
+        })
+    });
     container.appendChild(modal);
 
 };
 
+//ToDo Modal Module
+const renderUpdateToDoModal = ({ name, container, todoName }) => {
+    const modalTitle = `Update Task (${name})`;
+    const modal = makeToDoModalStructure(name, modalTitle);
+    eventManagerModal(modal, ({ data, project }) => {
+        pubsub.publish('update-todo', { data, project, todoName });
+    });
+    container.appendChild(modal);
+};
 
 const ToDoUI = ({ container }) => {
     const formatDate = (date) => {
@@ -143,6 +161,7 @@ const ToDoUI = ({ container }) => {
         });
         const editBtn = card.querySelector('button.modify-todo-btn');
         editBtn.addEventListener('click', () => {
+            renderUpdateToDoModal({ name: projectName, container, todoName: todo.title });
 
         });
 
@@ -176,11 +195,11 @@ const ProjectUI = ({ root, todoContainer }) => {
         todoContainer.innerHTML = ``;
     };
 
-    const onProjectSingleClick = ({ target }) => {
+    const onProjectSingleClick = (name) => {
         removeContents();
-        renderBtn({ name: target.dataset.name });
+        renderBtn({ name });
         // console.log(`I will now fetch todos from ${target}`);
-        pubsub.publish('project-click', { name: target.dataset.name });
+        pubsub.publish('project-click', { name });
     };
 
 
@@ -230,7 +249,7 @@ const ProjectUI = ({ root, todoContainer }) => {
             exitBtn.style.display = 'none';
             exitBtn.classList.remove('active');
         });
-        paragraphElement.addEventListener('click', onProjectSingleClick);
+        paragraphElement.addEventListener('click', ({ target }) => (onProjectSingleClick(target.dataset.name)));
         // paragraphElement.addEventListener('dblclick', onProjectDoubleClick)
         exitBtn.addEventListener('click', () => {
             newProject.remove();

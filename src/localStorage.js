@@ -57,8 +57,8 @@ const initializeStorage = function({ inbox, todoContainer }) {
 
 
     // #TODO Move to appropriate module
-    inbox.addEventListener('click', (e) => {
-        pubsub.publish('default-project', e);
+    inbox.addEventListener('click', ({ target }) => {
+        pubsub.publish('default-project', target.dataset.name);
     });
 
 
@@ -88,6 +88,19 @@ const initializeStorage = function({ inbox, todoContainer }) {
         return null;
     };
 
+    pubsub.subscribe('update-todo', ({ data, project, todoName }) => {
+        console.log(getProject(project).remove(todoName));
+        const updatedToDo = new ToDo(data);
+        const success = getProject(project).add(updatedToDo);
+        if (savedProjects) {
+            savedProjects.updateProject(getProject(project));
+            console.log('saved on localStorage')
+        }
+        console.log(success);
+        // must use default project . But we can't get project button
+        pubsub.publish('default-project', project);
+
+    });
 
     pubsub.subscribe('add-todo', ({ data, project }) => {
         const myProject = getProject(project);
@@ -123,6 +136,7 @@ const initializeStorage = function({ inbox, todoContainer }) {
     pubsub.subscribe('project-click', ({ name }) => {
         const project = getProject(name);
         const allTasks = project.getAll();
+        console.log(allTasks)
         if (Object.keys(allTasks).length === 0 && allTasks.constructor === Object) {
             console.log('I have no tasks!')
             return
@@ -143,7 +157,7 @@ const initializeStorage = function({ inbox, todoContainer }) {
     pubsub.subscribe('add-new-project', addProject);
     pubsub.subscribe('remove-project', removeProject);
     //renders the inbox project at DOMLoad
-    pubsub.publish('default-project', { target: inbox });
+    pubsub.publish('default-project', inbox.dataset.name);
     pubsub.publish('fetch-projects')
 
 
