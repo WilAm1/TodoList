@@ -36,7 +36,7 @@ const savedProjects = (() => {
 
     pubsub.subscribe('fetch-local-storage', getProjects)
 
-    return { getProjects, updateProject }
+    return { getProjects, updateProject, removeProject }
 })();
 
 
@@ -63,6 +63,9 @@ const initializeStorage = function({ inbox, todoContainer }) {
 
 
     const addProject = ({ name: projectName }) => {
+        if (container[projectName]) {
+            return
+        }
         container[projectName] = new Project(projectName);
         //Updates the key in the local Storage
         if (savedProjects) {
@@ -71,6 +74,9 @@ const initializeStorage = function({ inbox, todoContainer }) {
     };
     const removeProject = ({ name }) => {
         if (container[name]) {
+            if (savedProjects) {
+                savedProjects.removeProject(name);
+            }
             delete container[name];
         }
     };
@@ -103,11 +109,12 @@ const initializeStorage = function({ inbox, todoContainer }) {
 
 
     pubsub.subscribe('remove-todo', ({ projectName, todo }) => {
-        console.log(projectName)
         const project = getProject(projectName);
         if (project) {
             project.remove(todo.title);
-            console.log(project);
+            if (savedProjects) {
+                savedProjects.updateProject(project);
+            }
         }
     });
 
@@ -119,8 +126,8 @@ const initializeStorage = function({ inbox, todoContainer }) {
             console.log('I have no tasks!')
             return
         }
-        for (const [key, value] of Object.entries(allTasks)) {
-            pubsub.publish('render-todo', { projectName: key, todo: value })
+        for (const [, value] of Object.entries(allTasks)) {
+            pubsub.publish('render-todo', { projectName: name, todo: value })
         }
     });
 
