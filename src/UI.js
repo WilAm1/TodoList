@@ -162,12 +162,19 @@ const ProjectUI = ({ root, todoContainer }) => {
         todoContainer.innerHTML = ``;
     };
 
-    const onProjectClick = ({ target }) => {
+    const onProjectSingleClick = ({ target }) => {
         removeContents();
         renderBtn({ name: target.dataset.name });
         // console.log(`I will now fetch todos from ${target}`);
         pubsub.publish('project-click', { name: target.dataset.name });
     };
+
+
+    // const onProjectDoubleClick = ({ target }) => {
+    //     console.log('I am double click');
+    //     console.log(target)
+    // };
+
 
     const renderBtn = ({ name, container = todoContainer }) => {
         // Will always run since will wipe main content for every click
@@ -209,7 +216,8 @@ const ProjectUI = ({ root, todoContainer }) => {
             exitBtn.style.display = 'none';
             exitBtn.classList.remove('active');
         });
-        paragraphElement.addEventListener('click', onProjectClick);
+        paragraphElement.addEventListener('click', onProjectSingleClick);
+        // paragraphElement.addEventListener('dblclick', onProjectDoubleClick)
         exitBtn.addEventListener('click', () => {
             newProject.remove();
             pubsub.publish('remove-project', { name });
@@ -219,7 +227,7 @@ const ProjectUI = ({ root, todoContainer }) => {
         //wil edit later
         renderBtn({ name });
     };
-    pubsub.subscribe('default-project', onProjectClick);
+    pubsub.subscribe('default-project', onProjectSingleClick);
     pubsub.subscribe('add-new-project', renderProjectDiv);
     pubsub.subscribe('remove-project', removeContents);
     pubsub.subscribe('make-modal', renderToDoModal);
