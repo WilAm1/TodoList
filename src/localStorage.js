@@ -27,10 +27,8 @@ const savedProjects = (() => {
 
             for (let [, todoObj] of Object.entries(project.container)) {
                 const newTodo = new ToDo(todoObj);
-                // console.log(newTodo);
                 myContainer[projectName].add(newTodo);
             }
-            // console.log(myContainer[projectName]);
 
         }
         return myContainer;
@@ -43,9 +41,7 @@ const savedProjects = (() => {
 
 
 const initializeStorage = function({ inbox, todoContainer }) {
-    //local storage WEB API
 
-    //If there is no local storage
     let container;
 
     if (savedProjects) {
@@ -53,20 +49,22 @@ const initializeStorage = function({ inbox, todoContainer }) {
         console.log(container);
 
     } else {
+        //if there is no local function called savedProjects
         container = {
             default: new Project('default')
         };
-        // container.default = new Project('default');
     }
 
+
+    // #TODO Move to appropriate module
     inbox.addEventListener('click', (e) => {
         pubsub.publish('default-project', e);
     });
 
 
     const addProject = ({ name: projectName }) => {
-        //WIl revise later new Project(obj)
         container[projectName] = new Project(projectName);
+        //Updates the key in the local Storage
         if (savedProjects) {
             savedProjects.updateProject(container[projectName]);
         }
@@ -82,6 +80,8 @@ const initializeStorage = function({ inbox, todoContainer }) {
         }
         return null;
     };
+
+
     pubsub.subscribe('add-todo', ({ data, project }) => {
         const myProject = getProject(project);
         if (myProject) {
@@ -100,6 +100,8 @@ const initializeStorage = function({ inbox, todoContainer }) {
             pubsub.publish('render-todo', { projectName: myProject.name, todo: newTodo });
         }
     });
+
+
     pubsub.subscribe('remove-todo', ({ projectName, todo }) => {
         console.log(projectName)
         const project = getProject(projectName);
@@ -108,6 +110,8 @@ const initializeStorage = function({ inbox, todoContainer }) {
             console.log(project);
         }
     });
+
+
     pubsub.subscribe('project-click', ({ name }) => {
         const project = getProject(name);
         const allTasks = project.getAll();
@@ -119,9 +123,9 @@ const initializeStorage = function({ inbox, todoContainer }) {
             pubsub.publish('render-todo', { projectName: key, todo: value })
         }
     });
+
     pubsub.subscribe('fetch-projects', () => {
         for (const [key] of Object.entries(container)) {
-            // console.log(key);
             if (key === 'default') continue
             pubsub.publish('add-new-project', { name: key })
         }
