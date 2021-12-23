@@ -242,7 +242,7 @@ const ProjectUI = ({ root, todoContainer }) => {
         element.dataset.name = name;
         element.innerHTML = `
         <p class="project-name " data-name="${name}" ><i class="fas fa-tasks"></i> ${name}</p>
-        <button class="project-exit-btn"><i class="fas fa-times"></i></button>
+        <button class="project-exit-btn">x</i></button>
         `;
         return element
     };
@@ -318,10 +318,13 @@ const projectInputUI = function({ DOMbtn, DOMlist }) {
 
     const renderInputProject = function() {
         const div = document.createElement('div');
+        div.id = 'new-project-prompt'
         div.innerHTML = `
         <input type="text" required >
-        <button id="add-new-project" type="submit">Add</button>
-        <button id="cancel-new-project">Cancel</button>
+        <div>
+            <button id="add-new-project" type="submit">Add</button>
+            <button id="cancel-new-project">Cancel</button>
+        </div>
         `;
 
         const addBtn = div.querySelector('#add-new-project');

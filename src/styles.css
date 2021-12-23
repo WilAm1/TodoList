@@ -62,7 +62,8 @@ main div#main-content>* {
 }
 
 .project,
-.highlight {
+.highlight,
+#add-project {
     padding: 15px;
     margin-bottom: 5px;
     border: none;
@@ -72,8 +73,42 @@ main div#main-content>* {
     text-align: left;
 }
 
-.highlight:hover {
+.highlight:hover,
+#add-project:hover {
     background-color: #a1a1a183;
+}
+
+
+/* New Project Prompt */
+
+#new-project-prompt {
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
+}
+
+#new-project-prompt div {
+    display: flex;
+}
+
+#new-project-prompt input {
+    height: 1.3em;
+    font-size: 1.3em;
+    border-radius: 5px;
+}
+
+#new-project-prompt button {
+    width: 50%;
+    height: 30px;
+    border-radius: 5px;
+}
+
+#add-new-project {
+    background-color: #44ec2281;
+}
+
+#cancel-new-project {
+    background-color: #e72d2d8e;
 }
 
 .project {
@@ -82,7 +117,8 @@ main div#main-content>* {
 }
 
 .project p,
-#inbox-container button {
+#inbox-container button,
+#add-project:hover {
     cursor: pointer;
 }
 
