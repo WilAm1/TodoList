@@ -41,11 +41,15 @@ main div#menu {
 
 main div#main-content {
     flex: 2.5;
-    padding: 20px
+    padding: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 20px;
 }
 
 main div#main-content>* {
     margin: 0 auto;
+    width: 70%;
 }
 
 
@@ -56,8 +60,41 @@ main div#main-content>* {
     flex-direction: column;
 }
 
+.project,
 #inbox-container button {
-    background-color: #f1ebeb80;
+    padding: 15px;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 10px;
+    background-color: transparent;
+    font-size: 13px;
+    text-align: left;
+}
+
+#inbox-container button:hover {
+    background-color: #cecece;
+}
+
+#inbox-container button.active,
+div.project.active {
+    background-color: #cecece;
+    font-weight: bold;
+}
+
+
+/* 
+.project,
+#inbox-container button {} */
+
+.project {
+    background-color: #cecece;
+    display: flex;
+    justify-content: space-between;
+}
+
+.project p,
+#inbox-container button {
+    cursor: pointer;
 }
 
 .project-exit-btn {
@@ -66,6 +103,10 @@ main div#main-content>* {
 
 .project-exit-btn.active {
     display: block;
+    border: none;
+    background-color: transparent;
+    font-size: 12px;
+    cursor: pointer;
 }
 
 
@@ -130,8 +171,17 @@ main div#main-content>* {
           </div> */
 
 .todo-card {
+    background-color: #cecece;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    /* flex: 1; */
+}
+
+.card-partial {
     background-color: #dddddd;
-    padding: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .card-extended {

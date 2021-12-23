@@ -140,8 +140,11 @@ const ToDoUI = ({ container }) => {
           <div class="card-partial">
             <p class="card-title" data-todo-name="${title}">${title}</p>
             <p class="card-date">${formattedDate}</p>
-            <button class="remove-todo-btn">X</button>
-            <button class="modify-todo-btn">edit</button>
+            <div class="todo-btn-container">
+                <button class="remove-todo-btn">X</button>
+                <button class="modify-todo-btn">edit</button>
+
+            </div>
           </div>
           <div class="card-extended">
             <p class="card-description">${description}</p>
@@ -228,8 +231,8 @@ const ProjectUI = ({ root, todoContainer }) => {
         element.classList.add('project');
         element.dataset.name = `${name}-container`;
         element.innerHTML = `
-        <p class="project-name" data-name="${name}">${name}</p>
-        <button class="project-exit-btn">X</button>
+        <p class="project-name" data-name="${name}"><i class="fas fa-tasks"></i> ${name}</p>
+        <button class="project-exit-btn"><i class="fas fa-times"></i></button>
         `;
         return element
     };
