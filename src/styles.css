@@ -75,8 +75,13 @@ main div#main-content>* {
     background-color: #cecece;
 }
 
-#inbox-container button.active,
-div.project.active {
+
+/* #inbox-container button.active, */
+
+
+/* div.project.active */
+
+.highlight.active {
     background-color: #cecece;
     font-weight: bold;
 }

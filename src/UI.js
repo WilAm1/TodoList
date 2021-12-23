@@ -197,9 +197,21 @@ const ProjectUI = ({ root, todoContainer }) => {
     const removeContents = () => {
         todoContainer.innerHTML = ``;
     };
+    const toggleActiveStatus = (name) => {
+        const allClickableBtns = Array.from(document.querySelectorAll('.highlight'));
+        console.log(allClickableBtns)
+        allClickableBtns.forEach((element) => {
+            element.classList.remove('active');
+            if (name === element.dataset.name) {
+                console.log('element!')
+                element.classList.add('active');
+            }
+        });
+    };
 
     const onProjectSingleClick = (name) => {
         removeContents();
+        toggleActiveStatus(name);
         renderBtn({ name });
         // console.log(`I will now fetch todos from ${target}`);
         pubsub.publish('project-click', { name });
@@ -229,9 +241,10 @@ const ProjectUI = ({ root, todoContainer }) => {
     const makeProjectElement = (name) => {
         const element = document.createElement('div');
         element.classList.add('project');
-        element.dataset.name = `${name}-container`;
+        element.classList.add('highlight');
+        element.dataset.name = name;
         element.innerHTML = `
-        <p class="project-name" data-name="${name}"><i class="fas fa-tasks"></i> ${name}</p>
+        <p class="project-name " data-name="${name}" ><i class="fas fa-tasks"></i> ${name}</p>
         <button class="project-exit-btn"><i class="fas fa-times"></i></button>
         `;
         return element
@@ -252,7 +265,9 @@ const ProjectUI = ({ root, todoContainer }) => {
             exitBtn.style.display = 'none';
             exitBtn.classList.remove('active');
         });
-        paragraphElement.addEventListener('click', ({ target }) => (onProjectSingleClick(target.dataset.name)));
+        paragraphElement.addEventListener('click', ({ target }) => {
+            onProjectSingleClick(target.dataset.name);
+        });
         // paragraphElement.addEventListener('dblclick', onProjectDoubleClick)
         exitBtn.addEventListener('click', () => {
             newProject.remove();
