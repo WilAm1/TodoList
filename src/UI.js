@@ -102,7 +102,7 @@ const makeToDoModalStructure = (name, modalTitle) => {
 
 
 //ToDo Modal Module
-const renderNewToDoModal = ({ name, container }) => {
+const renderNewToDoModal = ({ name }) => {
     const modalTitle = `New Task (${name})`;
     const modal = makeToDoModalStructure(name, modalTitle);
     eventManagerModal(modal, ({ data, project }) => {
@@ -229,7 +229,6 @@ const ProjectUI = ({ root, todoContainer }) => {
         btn.addEventListener('click', () => {
             pubsub.publish('make-modal', {
                 name,
-                container
             });
         });
         container.appendChild(btn);
