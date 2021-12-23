@@ -111,7 +111,7 @@ const renderNewToDoModal = ({ name, container }) => {
             project,
         })
     });
-    container.appendChild(modal);
+    document.body.appendChild(modal);
 
 };
 
