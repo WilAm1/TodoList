@@ -45,6 +45,7 @@ main div#main-content {
     display: flex;
     flex-flow: column nowrap;
     gap: 20px;
+    min-width: 500px;
 }
 
 main div#main-content>* {
@@ -61,7 +62,7 @@ main div#main-content>* {
 }
 
 .project,
-#inbox-container button {
+.highlight {
     padding: 15px;
     margin-bottom: 5px;
     border: none;
@@ -71,8 +72,8 @@ main div#main-content>* {
     text-align: left;
 }
 
-#inbox-container button:hover {
-    background-color: #cecece;
+.highlight:hover {
+    background-color: #a1a1a183;
 }
 
 
@@ -81,18 +82,12 @@ main div#main-content>* {
 
 /* div.project.active */
 
-.highlight.active {
-    background-color: #cecece;
-    font-weight: bold;
-}
-
 
 /* 
 .project,
 #inbox-container button {} */
 
 .project {
-    background-color: #cecece;
     display: flex;
     justify-content: space-between;
 }
@@ -195,4 +190,10 @@ main div#main-content>* {
 
 .card-extended.active {
     display: block;
+}
+
+#inbox-container .highlight.active,
+.highlight.active {
+    background-color: #c2bebe;
+    font-weight: bold;
 }

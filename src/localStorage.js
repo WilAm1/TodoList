@@ -46,7 +46,7 @@ const initializeStorage = function({ inbox, todoContainer }) {
 
     if (savedProjects) {
         container = savedProjects.getProjects();
-        console.log(container);
+        // console.log(container);
 
     } else {
         //if there is no local function called savedProjects
@@ -136,7 +136,7 @@ const initializeStorage = function({ inbox, todoContainer }) {
     pubsub.subscribe('project-click', ({ name }) => {
         const project = getProject(name);
         const allTasks = project.getAll();
-        console.log(allTasks)
+        // console.log(allTasks)
         if (Object.keys(allTasks).length === 0 && allTasks.constructor === Object) {
             console.log('I have no tasks!')
             return

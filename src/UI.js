@@ -199,11 +199,9 @@ const ProjectUI = ({ root, todoContainer }) => {
     };
     const toggleActiveStatus = (name) => {
         const allClickableBtns = Array.from(document.querySelectorAll('.highlight'));
-        console.log(allClickableBtns)
         allClickableBtns.forEach((element) => {
             element.classList.remove('active');
             if (name === element.dataset.name) {
-                console.log('element!')
                 element.classList.add('active');
             }
         });
