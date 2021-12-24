@@ -12,12 +12,21 @@ body {
     box-sizing: border-box;
     background-color: #eeeeee;
     color: #333333;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
 
 header {
     background-color: #333333;
     padding: 30px;
     color: #eeeeee;
+}
+
+h1 {
+    font-weight: 200;
+}
+
+h2 {
+    font-weight: 400;
 }
 
 main {
@@ -43,14 +52,29 @@ main div#main-content {
     flex: 2.5;
     padding: 20px;
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: column-reverse nowrap;
+    align-items: flex-end;
+    justify-content: flex-end;
     gap: 20px;
-    min-width: 500px;
+    min-width: 400px;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 main div#main-content>* {
     margin: 0 auto;
     width: 70%;
+}
+
+
+/* Add Modal Btn */
+
+#main-content .add-todo-btn {
+    width: 100px;
+    padding: 1em .5em;
+    background: transparent;
+    border: none;
+    border-radius: 5px;
 }
 
 
@@ -70,11 +94,14 @@ main div#main-content>* {
     border-radius: 10px;
     background-color: transparent;
     font-size: 13px;
+    font-weight: 400;
     text-align: left;
 }
 
 .highlight:hover,
-#add-project:hover {
+#add-project:hover,
+#main-content .add-todo-btn:hover,
+.aux-container button:hover {
     background-color: #a1a1a183;
 }
 
@@ -118,7 +145,8 @@ main div#main-content>* {
 
 .project p,
 #inbox-container button,
-#add-project:hover {
+#add-project:hover,
+#main-content .add-todo-btn:hover {
     cursor: pointer;
 }
 
@@ -132,6 +160,7 @@ main div#main-content>* {
     background-color: transparent;
     font-size: 12px;
     cursor: pointer;
+    font-family: 'Nunito', 'Courier New', Courier, monospace;
 }
 
 
@@ -162,13 +191,13 @@ main div#main-content>* {
 }
 
 .close-button {
-    float: right;
     width: 1.5rem;
     line-height: 1.5rem;
     text-align: center;
     cursor: pointer;
     border-radius: 0.25rem;
     background-color: lightgray;
+    font-family: 'Nunito', 'Courier New', Courier, monospace;
 }
 
 .close-button:hover {
@@ -198,6 +227,19 @@ main div#main-content>* {
     justify-content: space-between;
 }
 
+.card-partial .aux-container {
+    display: flex;
+    gap: 10px;
+}
+
+.aux-container button {
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    background-color: transparent;
+    padding: 0 5px;
+}
+
 .card-extended {
     display: none;
 }
@@ -209,5 +251,5 @@ main div#main-content>* {
 #inbox-container .highlight.active,
 .highlight.active {
     background-color: #c2bebe;
-    font-weight: bold;
+    font-weight: 500;
 }

@@ -127,7 +127,7 @@ const renderUpdateToDoModal = ({ name, container, todoName }) => {
 
 const ToDoUI = ({ container }) => {
     const formatDate = (date) => {
-        return (date) ? date : 'no due date'
+        return (date) ? date : 'no date'
     };
 
     const renderTodo = ({ projectName, todo }) => {
@@ -139,8 +139,8 @@ const ToDoUI = ({ container }) => {
         card.innerHTML = `
           <div class="card-partial">
             <p class="card-title" data-todo-name="${title}">${title}</p>
-            <p class="card-date">${formattedDate}</p>
-            <div class="todo-btn-container">
+            <div class="aux-container">
+                <p class="card-date">${formattedDate}</p>
                 <button class="remove-todo-btn">X</button>
                 <button class="modify-todo-btn">edit</button>
 
@@ -189,7 +189,7 @@ const ProjectUI = ({ root, todoContainer }) => {
 
     const makeToDoBtn = () => {
         const addBtn = document.createElement('button');
-        addBtn.textContent = "(+) Add Task";
+        addBtn.innerHTML = `<i class="fas fa-plus-square"></i> Add Task`;
         addBtn.classList.add('add-todo-btn');
         return addBtn;
     };
