@@ -116,13 +116,13 @@ const renderNewToDoModal = ({ name }) => {
 };
 
 //ToDo Modal Module
-const renderUpdateToDoModal = ({ name, container, todoName }) => {
+const renderUpdateToDoModal = ({ name, todoName }) => {
     const modalTitle = `Update Task (${name})`;
     const modal = makeToDoModalStructure(name, modalTitle);
     eventManagerModal(modal, ({ data, project }) => {
         pubsub.publish('update-todo', { data, project, todoName });
     });
-    container.appendChild(modal);
+    document.body.appendChild(modal);
 };
 
 const ToDoUI = ({ container }) => {
@@ -164,7 +164,7 @@ const ToDoUI = ({ container }) => {
         });
         const editBtn = card.querySelector('button.modify-todo-btn');
         editBtn.addEventListener('click', () => {
-            renderUpdateToDoModal({ name: projectName, container, todoName: todo.title });
+            renderUpdateToDoModal({ name: projectName, todoName: todo.title });
 
         });
 
