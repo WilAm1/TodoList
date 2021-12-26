@@ -81,18 +81,27 @@ const makeToDoModalStructure = (name, modalTitle) => {
           </div>
           <div class="modal-body">
             <form id="todo-form">
-                <label for="title">Title:</label>
-                <input type="text" required id="title">
-                <label for="description">Description:</label>
-                <textarea id="description" rows="4" required></textarea>
-                <label for="date">Due Date:</label>
-                <input type="date" id="date" >
-                <label for="priority">Priority:</label>
-                <select id="priority" required>
-                <option value="low" selected>Low</option>
-                <option value="medium" >Medium</option>
-                <option value="high" >High</option>
-                </select>
+                <div class="input-container">
+                    <label for="title">Title:</label>
+                    <input type="text" required id="title">
+                </div>
+                <div class="input-container">
+                    <label for="description">Description:</label>
+                    <textarea id="description" cols="20" required></textarea>               
+                </div>
+                <div class="input-container">
+                    <label for="date">Due Date:</label>
+                    <input type="date" id="date" >
+                </div>
+                <div class="input-container">
+                    <label for="priority">Priority:</label>
+                    <select id="priority" required>
+                    <option value="low" selected>Low</option>
+                    <option value="medium" >Medium</option>
+                    <option value="high" >High</option>
+                    </select>
+                </div>
+
              </form>
             <button form="todo-form" type="submit" id="form-submit-btn">Add Task</button>
            </div>
@@ -141,14 +150,14 @@ const ToDoUI = ({ container }) => {
             <p class="card-title" data-todo-name="${title}">${title}</p>
             <div class="aux-container">
                 <p class="card-date">${formattedDate}</p>
-                <button class="remove-todo-btn">X</button>
                 <button class="modify-todo-btn">edit</button>
+                <button class="remove-todo-btn">X</button>
 
             </div>
           </div>
           <div class="card-extended">
-            <p class="card-description">${description}</p>
-            <p class="card-priority">${priority}</p>
+            <p class="card-description">Description: ${description}</p>
+            <p class="card-priority">Priority: ${priority}</p>
           </div>
                 `;
         const partial = card.querySelector('.card-partial');
